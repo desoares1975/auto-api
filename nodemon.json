@@ -1,0 +1,6 @@
+{
+  	"events": {
+    	"restart": "jshint ./"
+  	},
+  	"ext": "js json"
+}

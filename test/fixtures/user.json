@@ -1,0 +1,52 @@
+[
+    {
+        "name": "Abe Abeson",
+        "age": 30,
+        "address": "Test Street, 10"
+    },
+    {
+        "name": "Baby Babyson",
+        "age": 1,
+        "address": "Bt Street, 1"
+    },
+    {
+        "name": "Chalie Charlison",
+        "age": 46,
+        "address": "Cable Street, 12"
+    },
+    {
+        "name": "David Davidson",
+        "age": 32,
+        "address": "Dora Street, 24"
+    },
+    {
+        "name": "Eliot Otson",
+        "age": 54,
+        "address": "Elm Street, 54"
+    },
+    {
+        "name": "Francine Farncison",
+        "age": 99,
+        "address": "Fake Street, 100"
+    },
+    {
+        "name": "Garry Suckit",
+        "age": 23,
+        "address": "Gay Street, 11"
+    },
+    {
+        "name": "Harry Harrison",
+        "age": 62,
+        "address": "Hangar Street, 211"
+    },
+    {
+        "name": "Ike Batista",
+        "age": 83,
+        "address": "Richie Street, 1000"
+    },
+    {
+        "name": "Jonah James Jameson",
+        "age": 56,
+        "address": "Jungle Street, 6"
+    }
+]
