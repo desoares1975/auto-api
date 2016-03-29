@@ -1,1 +1,3 @@
 node_modules/
+db-sim/data/test.json
+db-sim/data/user_test.json

@@ -8,18 +8,28 @@ module.exports = {
         let file = __dirname + '/data/' + req.path + '.json';
 
         fs.stat(file, (err, stat) => {
-            let data = req.body || '';
+            let data;
+
             if (err && err.code === 'ENOENT') {
-                fs.writeFile(file, JSON.stringify(data), (err, fd) => {
+                if (req.body) {
+                    data = JSON.stringify([req.body]);
+                } else {
+                    data = JSON.stringify([]);
+                }
+
+                fs.writeFile(file, data, (err, fd) => {
                     if (err) {
                         throw err;
                     }
 
-                    return cb(null, req.body);
+                    data = JSON.parse(data);
+                    return cb(null, (data[0] || data));
                 });
-            } else {
 
-                fs.appendFile(file, JSON.stringify(req.body), (err) => {
+            } else {
+                data = require(file);
+                data.push(req.body);
+                fs.writeFile(file, JSON.stringify(data), (err) => {
                     if (err) {
                         throw err;
                     }
