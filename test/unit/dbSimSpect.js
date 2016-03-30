@@ -79,6 +79,7 @@ describe('Testing dbSim CRUD ',  () => {
             let file = __dirname + '/../../db-sim/data/test.json',
                 storedData = require(file);
 
+            expect(data.index).to.deep.equal(1);
             expect(data.data0).to.deep.equal('Test data 0');
             expect(data.data3).to.be.an('number');
             expect(data.data4).to.be.an('Array');
@@ -109,7 +110,8 @@ describe('Testing dbSim CRUD ',  () => {
         db.create(req, res, (err, data) => {
             let file = __dirname + '/../../db-sim/data/test_new_file.json',
                 storedData = require(file);
-
+            
+            expect(data.index).to.deep.equal(1);                
             expect(data.data0).to.deep.equal('Test data 0');
             expect(data.data3).to.be.an('number');
             expect(data.data4).to.be.an('Array');
@@ -241,5 +243,10 @@ describe('Testing dbSim CRUD ',  () => {
             expect(dados[2].name).to.deep.equal("Eliot Otson");
             done();
         });
+    });
+
+    it ('Test udate method', (done) => {
+        
+        done();
     });
 });

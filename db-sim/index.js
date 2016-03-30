@@ -12,7 +12,9 @@ module.exports = {
 
             if (err && err.code === 'ENOENT') {
                 if (req.body) {
+                    req.body.index = 1;
                     data = JSON.stringify([req.body]);
+
                 } else {
                     data = JSON.stringify([]);
                 }
@@ -28,6 +30,7 @@ module.exports = {
 
             } else {
                 data = require(file);
+                req.body.index = data.length + 1;
                 data.push(req.body);
                 fs.writeFile(file, JSON.stringify(data), (err) => {
                     if (err) {
