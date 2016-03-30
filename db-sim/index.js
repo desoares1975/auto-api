@@ -12,7 +12,9 @@ module.exports = {
 
             if (err && err.code === 'ENOENT') {
                 if (req.body) {
+                    req.body.index = 1;
                     data = JSON.stringify([req.body]);
+
                 } else {
                     data = JSON.stringify([]);
                 }
@@ -28,6 +30,7 @@ module.exports = {
 
             } else {
                 data = require(file);
+                req.body.index = data.length + 1;
                 data.push(req.body);
                 fs.writeFile(file, JSON.stringify(data), (err) => {
                     if (err) {
@@ -64,7 +67,20 @@ module.exports = {
         return cb(null, data);
     },
     'update': (req, res, cb) => {
+        'use strict';
 
+        let file = __dirname + '/data/' + req.path + '.json',
+            data = require(file);
+
+        data[req.body.index - 1] = req.body;
+
+        fs.writeFile(file, JSON.stringify(data), (err) => {
+            if (err) {
+                throw err;
+            }
+
+            return cb(null, req.body);
+        });
     },
     'delete': () => {
 

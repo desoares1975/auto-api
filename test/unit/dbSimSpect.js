@@ -79,6 +79,7 @@ describe('Testing dbSim CRUD ',  () => {
             let file = __dirname + '/../../db-sim/data/test.json',
                 storedData = require(file);
 
+            expect(data.index).to.deep.equal(1);
             expect(data.data0).to.deep.equal('Test data 0');
             expect(data.data3).to.be.an('number');
             expect(data.data4).to.be.an('Array');
@@ -109,7 +110,8 @@ describe('Testing dbSim CRUD ',  () => {
         db.create(req, res, (err, data) => {
             let file = __dirname + '/../../db-sim/data/test_new_file.json',
                 storedData = require(file);
-
+            
+            expect(data.index).to.deep.equal(1);                
             expect(data.data0).to.deep.equal('Test data 0');
             expect(data.data3).to.be.an('number');
             expect(data.data4).to.be.an('Array');
@@ -178,13 +180,13 @@ describe('Testing dbSim CRUD ',  () => {
 
         req.path = 'user_test';
         req.limit = 12;
-        db.read(req, res, function (err, dados) {
+        db.read(req, res, function (err, data) {
             if (err) {
                 throw err;
             }
 
-            expect(dados.length).to.deep.equal(10);
-            expect(dados[0].name).to.deep.equal("Abe Abeson");
+            expect(data.length).to.deep.equal(10);
+            expect(data[0].name).to.deep.equal("Abe Abeson");
             done();
         });
     });
@@ -212,13 +214,13 @@ describe('Testing dbSim CRUD ',  () => {
             req = {};
 
         req.path = 'user_test';
-        db.read(req, res, function (err, dados) {
+        db.read(req, res, function (err, data) {
             if (err) {
                 throw err;
             }
 
-            expect(dados.length).to.deep.equal(10);
-            expect(dados[0].name).to.deep.equal("Abe Abeson");
+            expect(data.length).to.deep.equal(10);
+            expect(data[0].name).to.deep.equal("Abe Abeson");
             done();
         });
     });
@@ -231,14 +233,34 @@ describe('Testing dbSim CRUD ',  () => {
         req.path = 'user_test';
         req.skip = 2;
         req.limit = 3;
-        db.read(req, res, function (err, dados) {
+        db.read(req, res, function (err, data) {
             if (err) {
                 throw err;
             }
 
-            expect(dados.length).to.deep.equal(3);
-            expect(dados[0].name).to.deep.equal("Chalie Charlison");
-            expect(dados[2].name).to.deep.equal("Eliot Otson");
+            expect(data.length).to.deep.equal(3);
+            expect(data[0].name).to.deep.equal("Chalie Charlison");
+            expect(data[2].name).to.deep.equal("Eliot Otson");
+            done();
+        });
+    });
+
+    it ('Test udate method', (done) => {
+        let res = new Response('/user_test'),
+            req = {},
+            data = require(__dirname + '/../../db-sim/data/user_test.json')[8];
+            expect(data.age).to.deep.equal(83);
+            data.address = 'Dead Street, 1000';
+            data.age = 99;
+
+        req.path = 'user_test';
+        req.body = data;
+
+        db.update(req, res, (err, data) => {
+            expect(data.index).to.deep.equal(9);
+            let retriveData = require(__dirname + '/../../db-sim/data/user_test.json')[8];
+            expect(retriveData.address).to.deep.equal('Dead Street, 1000');
+            expect(retriveData.age).to.deep.equal(99);
             done();
         });
     });
