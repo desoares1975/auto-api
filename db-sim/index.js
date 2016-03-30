@@ -66,8 +66,21 @@ module.exports = {
 
         return cb(null, data);
     },
-    'update': () => {
+    'update': (req, res, cb) => {
+        'use strict';
 
+        let file = __dirname + '/data/' + req.path + '.json',
+            data = require(file);
+
+        data[req.body.index - 1] = req.body;
+
+        fs.writeFile(file, JSON.stringify(data), (err) => {
+            if (err) {
+                throw err;
+            }
+
+            return cb(null, req.body);
+        });
     },
     'delete': () => {
 
