@@ -242,4 +242,8 @@ describe('Testing dbSim CRUD ',  () => {
             done();
         });
     });
+
+    it('Test update method', () => {
+
+    });
 });

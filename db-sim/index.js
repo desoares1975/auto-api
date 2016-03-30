@@ -63,7 +63,7 @@ module.exports = {
 
         return cb(null, data);
     },
-    'update': () => {
+    'update': (req, res, cb) => {
 
     },
     'delete': () => {
