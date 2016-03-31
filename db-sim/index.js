@@ -82,7 +82,14 @@ module.exports = {
             return cb(null, req.body);
         });
     },
-    'delete': () => {
+    'delete': (req, res, cb) => {
+        'use strict';
 
+        let file = __dirname + '/data/' + req.path + '.json',
+            data = require(file),
+            toRemove = data.indexOf({'index': req.body.index});
+
+        data.splice((req.body.index -1), 1);
+        return cb(null, true);
     }
 };

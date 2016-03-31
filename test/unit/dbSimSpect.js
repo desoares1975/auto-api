@@ -110,8 +110,8 @@ describe('Testing dbSim CRUD ',  () => {
         db.create(req, res, (err, data) => {
             let file = __dirname + '/../../db-sim/data/test_new_file.json',
                 storedData = require(file);
-            
-            expect(data.index).to.deep.equal(1);                
+
+            expect(data.index).to.deep.equal(1);
             expect(data.data0).to.deep.equal('Test data 0');
             expect(data.data3).to.be.an('number');
             expect(data.data4).to.be.an('Array');
@@ -245,7 +245,7 @@ describe('Testing dbSim CRUD ',  () => {
         });
     });
 
-    it ('Test udate method', (done) => {
+    it ('Test update method', (done) => {
         let res = new Response('/user_test'),
             req = {},
             data = require(__dirname + '/../../db-sim/data/user_test.json')[8];
@@ -265,7 +265,20 @@ describe('Testing dbSim CRUD ',  () => {
         });
     });
 
-    it('Test update method', () => {
+    it('Test delete method', (done) => {
+        let res = new Response('/user_test'),
+            req = {};
 
+        req.path = 'user_test';
+        req.body = {'index': 4};
+        db.delete(req, res, (err, deleted) => {
+            if (err) {
+                throw err;
+            }
+
+            expect(deleted).to.deep.equal(true);
+
+            done();
+        });
     });
 });
