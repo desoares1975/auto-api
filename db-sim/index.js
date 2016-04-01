@@ -5,14 +5,15 @@ module.exports = {
     'create': (req, res, cb) => {
         'use strict';
 
-        let file = __dirname + '/data/' + req.path + '.json';
+        let file = __dirname + '/data/' + req.path + '.json',
+            idFile = __dirname + '/data/indexes/' + req.path + '_index' + '.md';
 
         fs.stat(file, (err, stat) => {
             let data;
 
             if (err && err.code === 'ENOENT') {
                 if (req.body) {
-                    req.body.index = 1;
+                    req.body._id = 1;
                     data = JSON.stringify([req.body]);
 
                 } else {
@@ -21,11 +22,16 @@ module.exports = {
 
                 fs.writeFile(file, data, (err, fd) => {
                     if (err) {
-                        throw err;
+                        return cb(err);
                     }
 
                     data = JSON.parse(data);
-                    return cb(null, (data[0] || data));
+                    fs.writeFile(idFile, JSON.stringify({'_id': 1, 'index': 1})+ "\n", (err, fd) => {
+                        if (err) {
+                            return cb(err);
+                        }
+                        return cb(null, (data[0] || data));
+                    })
                 });
 
             } else {
@@ -34,7 +40,7 @@ module.exports = {
                 data.push(req.body);
                 fs.writeFile(file, JSON.stringify(data), (err) => {
                     if (err) {
-                        throw err;
+                        return cb(err);
                     }
 
                     return cb(null, req.body);

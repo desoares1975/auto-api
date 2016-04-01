@@ -1,3 +1,5 @@
 node_modules/
 db-sim/data/test.json
 db-sim/data/user_test.json
+db-sim/data/indexes/test_index.json
+db-sim/data/indexes/user_test_index.json
