@@ -31,7 +31,7 @@ module.exports = {
                             return cb(err);
                         }
                         return cb(null, (data[0] || data));
-                    })
+                    });
                 });
 
             } else {

@@ -1,6 +1,8 @@
+/* jshint esversion: 6, strict: true */
 var fs = require('fs');
 var file = 'test_file';
 fs.open(file, 'a+',function(err, fd) {
+    'use strict';
     if (err) {
         throw err;
     }

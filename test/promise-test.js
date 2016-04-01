@@ -1,14 +1,16 @@
-'use strict';
+/* jshint esversion: 6, strict: true */
 
 var fs = require('fs'),
     file = 'test_file.zdb';
 
 var filePromise = new Promise((res, rej)=>{
+    'use strict';
     fs.open(file, 'a+', (err, data)=>{
         returnData(err, data, res, rej);
     });
 }),
     dataPromise = new Promise((res, rej)=>{
+    'use strict';
     fs.readFile(file, 'utf8', (err, data)=>{
         returnData(err, data, res, rej);
     });
@@ -20,7 +22,7 @@ filePromise.then()
 });
 
 dataPromise.then((data)=>{
-
+    'use strict';
     var coma = '';
 
     if (data != undefined && data.slice(-1)[0] == '}') {
@@ -44,6 +46,7 @@ dataPromise.then((data)=>{
 
 
 function returnData(err, data, res, rej) {
+    'use strict';
     if (!err) {
         return res(data);
     }

@@ -55,7 +55,6 @@ describe('Testing dbSim CRUD ',  () => {
             req = {};
 
         req.path = 'test';
-        //req.body = {'data': ' test'};
         var test = db.create(req, res, (err, data) => {
 
             expect(data).to.deep.equal([]);
@@ -111,7 +110,7 @@ describe('Testing dbSim CRUD ',  () => {
             let file = __dirname + '/../../db-sim/data/test_new_file.json',
                 storedData = require(file);
 
-            expect(data.index).to.deep.equal(1);
+            expect(data.id).to.deep.equal(1);
             expect(data.data0).to.deep.equal('Test data 0');
             expect(data.data3).to.be.an('number');
             expect(data.data4).to.be.an('Array');
