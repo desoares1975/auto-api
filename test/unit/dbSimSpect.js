@@ -57,7 +57,7 @@ describe('Testing dbSim CRUD ',  () => {
         req.path = 'test';
         var test = db.create(req, res, (err, data) => {
 
-            expect(data).to.deep.equal([]);
+            expect(data).to.deep.equal(undefined);
             done();
         });
     });
@@ -75,30 +75,29 @@ describe('Testing dbSim CRUD ',  () => {
         };
 
         db.create(req, res, (err, data) => {
-            let file = __dirname + '/../../db-sim/data/test.json',
-                storedData = require(file);
+            let file = __dirname + '/../../db-sim/data/test.json';
 
-            expect(data.index).to.deep.equal(1);
+            if (err) {
+                throw err;
+            }
+
             expect(data.data0).to.deep.equal('Test data 0');
             expect(data.data3).to.be.an('number');
             expect(data.data4).to.be.an('Array');
             expect(data.data4.length).to.deep.equal(5);
-            //testing data on the file
-            expect(storedData.length).to.deep.equal(1);
-            expect(storedData[0].data0).to.deep.equal('Test data 0');
-            expect(storedData[0].data3).to.be.an('number');
-            expect(storedData[0].data4).to.be.an('Array');
 
-            done();
         });
+            done();
 
     });
 
     it('Test create method with data for a non exiting file.', (done) => {
-        let res = new Response('/test_new_file'),
+        let fileName = 'test_new_file',
+            file = __dirname + '/../../db-sim/data/' + fileName + '.json',
+            res = new Response('/' + fileName),
             req = {};
 
-        req.path = 'test_new_file';
+        req.path = fileName;
         req.body = {
             'data0': 'Test data 0',
             'data1': 'Test data 1',
@@ -107,29 +106,38 @@ describe('Testing dbSim CRUD ',  () => {
         };
 
         db.create(req, res, (err, data) => {
-            let file = __dirname + '/../../db-sim/data/test_new_file.json',
-                storedData = require(file);
 
-            expect(data.id).to.deep.equal(1);
+            //expect(data.id).to.deep.equal(1);
             expect(data.data0).to.deep.equal('Test data 0');
             expect(data.data3).to.be.an('number');
             expect(data.data4).to.be.an('Array');
             expect(data.data4.length).to.deep.equal(5);
             //testing data on the file
-            expect(storedData.length).to.deep.equal(1);
-            expect(storedData[0].data0).to.deep.equal('Test data 0');
-            expect(storedData[0].data3).to.be.an('number');
-            expect(storedData[0].data4).to.deep.equal(['a', 'b', 'c', 'd', 'e']);
+            fs.open(file, 'r', (err, fd)=>{
 
-            done();
+                fs.readFile(file, 'utf-8', (err, storedData)=>{
+                    if (err) {throw err;}
+
+                    storedData = '[' + storedData + ']';
+
+                    storedData = JSON.parse(storedData);
+                    expect(storedData.length).to.deep.equal(1);
+                    expect(storedData[0].data0).to.deep.equal('Test data 0');
+                    expect(storedData[0].data3).to.be.an('number');
+                    expect(storedData[0].data4).to.deep.equal(['a', 'b', 'c', 'd', 'e']);
+                    fs.close(fd);
+                    done();
+                });
+            });
         });
     });
 
     it('Test create method with data for a exiting file with data.', (done) => {
-        let res = new Response('/test_new_file'),
+        let fileName = 'test_new_file',
+            res = new Response('/' + fileName),
             req = {};
 
-        req.path = 'test_new_file';
+        req.path = fileName;
         req.body = {
             'data0': 'Test data 0-1',
             'data1': 'Test data 1-1',
@@ -138,21 +146,28 @@ describe('Testing dbSim CRUD ',  () => {
         };
 
         db.create(req, res, (err, data) => {
-            let file = __dirname + '/../../db-sim/data/test_new_file.json',
-                storedData = require(file);
+            let file = __dirname + '/../../db-sim/data/' + fileName + '.json';
 
             expect(data.data0).to.deep.equal('Test data 0-1');
             expect(data.data3).to.be.an('number');
             expect(data.data4).to.be.an('Array');
             expect(data.data4.length).to.deep.equal(5);
-            //testing data on the file
-            expect(storedData.length).to.deep.equal(2);
-            expect(storedData[1].data0).to.deep.equal('Test data 0-1');
-            expect(storedData[1].data3).to.be.an('number');
-            expect(storedData[0].data4).to.deep.equal(['a', 'b', 'c', 'd', 'e']);
-            expect(storedData[1].data4).to.deep.equal([1, 2, 3, 4, 5]);
+            fs.open(file, 'r', (err, fd)=>{
 
-            done();
+                fs.readFile(file, 'utf-8', (err, storedData)=>{
+                    if (err) {throw err;}
+
+                    storedData = '[' + storedData + ']';
+
+                    storedData = JSON.parse(storedData);
+                    expect(storedData.length).to.deep.equal(2);
+                    expect(storedData[0].data0).to.deep.equal('Test data 0');
+                    expect(storedData[0].data3).to.be.an('number');
+                    expect(storedData[0].data4).to.deep.equal(['a', 'b', 'c', 'd', 'e']);
+                    fs.close(fd);
+                    done();
+                });
+            });
         });
     });
 

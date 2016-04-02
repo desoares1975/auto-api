@@ -6,49 +6,34 @@ module.exports = {
         'use strict';
 
         let file = __dirname + '/data/' + req.path + '.json',
-            idFile = __dirname + '/data/indexes/' + req.path + '_index' + '.md';
+            idFile = __dirname + '/data/indexes/' + req.path + '_index' + '.md',
+            coma = '',
+            toSave = '';
 
-        fs.stat(file, (err, stat) => {
-            let data;
+        fs.open(file, 'a+', (err, fd)=>{
+            if (err) {throw err;}
 
-            if (err && err.code === 'ENOENT') {
-                if (req.body) {
-                    req.body._id = 1;
-                    data = JSON.stringify([req.body]);
+            fs.readFile(file, 'utf-8', (err, data)=>{
+                if (err) {throw err;}
 
-                } else {
-                    data = JSON.stringify([]);
+                if (data.slice(-1)[0] == '}') {
+                    coma = ',';
                 }
 
-                fs.writeFile(file, data, (err, fd) => {
-                    if (err) {
-                        return cb(err);
-                    }
+                if (req.body){
+                    toSave = JSON.stringify(req.body);
+                }
 
-                    data = JSON.parse(data);
-                    fs.writeFile(idFile, JSON.stringify({'_id': 1, 'index': 1})+ "\n", (err, fd) => {
-                        if (err) {
-                            return cb(err);
-                        }
-                        return cb(null, (data[0] || data));
-                    });
-                });
+                fs.appendFile(file, coma + toSave, (err)=>{
+                    if (err) {throw err;}
 
-            } else {
-                data = require(file);
-                req.body.index = data.length + 1;
-                data.push(req.body);
-                fs.writeFile(file, JSON.stringify(data), (err) => {
-                    if (err) {
-                        return cb(err);
-                    }
-
+                    fs.close(fd);
                     return cb(null, req.body);
                 });
-            }
-
+            });
         });
     },
+
     'read': (req, res, cb) => {
         'use strict';
 
@@ -72,6 +57,7 @@ module.exports = {
 
         return cb(null, data);
     },
+
     'update': (req, res, cb) => {
         'use strict';
 
@@ -88,6 +74,7 @@ module.exports = {
             return cb(null, req.body);
         });
     },
+
     'delete': (req, res, cb) => {
         'use strict';
 
