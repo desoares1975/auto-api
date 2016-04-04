@@ -1,5 +1,0 @@
-function (err, fd) {
-    if (err) {
-        throw err;
-    }
-}

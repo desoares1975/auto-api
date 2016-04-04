@@ -1,101 +1,156 @@
 /* jshint esversion: 6 */
-var fs = require('fs');
+var fs = require('fs'),
+    obj = require('../lib/object-value');
+
+function filePromiseAplus(file) {
+    return new Promise((resolve, reject)=>{
+        'use strict';
+
+        fs.open(file, 'a+', (err, fileDesc)=>{
+            if (err) {
+                return reject(err);
+            }
+
+            resolve(fileDesc);
+        });
+    });
+}
 
 module.exports = {
     'create': (req, res, cb) => {
         'use strict';
 
-        let file = __dirname + '/data/' + req.path + '.json',
-            idFile = __dirname + '/data/indexes/' + req.path + '_index' + '.md';
+        let file = __dirname + '/data/' + req.path + '.lzdb',
+            coma = '';
 
-        fs.stat(file, (err, stat) => {
-            let data;
+        filePromiseAplus(file)
+        .then((fdCreate)=>{
 
-            if (err && err.code === 'ENOENT') {
-                if (req.body) {
-                    req.body._id = 1;
-                    data = JSON.stringify([req.body]);
+            fs.readFile(file, 'utf-8', (err, data)=>{
+                if (err) {throw err;}
 
-                } else {
-                    data = JSON.stringify([]);
+                if (data) {
+                    coma = ',';
                 }
 
-                fs.writeFile(file, data, (err, fd) => {
-                    if (err) {
-                        return cb(err);
-                    }
+                if (req.body instanceof Object){
+                    req.body._id = Date.now();
+                    fs.appendFile(file, coma + JSON.stringify(req.body), (err)=>{
+                        if (err) {throw err;}
 
-                    data = JSON.parse(data);
-                    fs.writeFile(idFile, JSON.stringify({'_id': 1, 'index': 1})+ "\n", (err, fd) => {
-                        if (err) {
-                            return cb(err);
-                        }
-                        return cb(null, (data[0] || data));
-                    })
-                });
+                        fs.close(fdCreate);
+                        return cb(null, req.body);
+                    });
+                } else {
 
-            } else {
-                data = require(file);
-                req.body.index = data.length + 1;
-                data.push(req.body);
-                fs.writeFile(file, JSON.stringify(data), (err) => {
-                    if (err) {
-                        return cb(err);
-                    }
-
+                    fs.close(fdCreate);
                     return cb(null, req.body);
-                });
-            }
-
+                }
+            });
+        }).catch((reason)=>{
+            console.log('REASON->create', reason);
         });
     },
+
     'read': (req, res, cb) => {
         'use strict';
 
-        let data = require(__dirname + '/data/' + req.path + '.json'),
+        let file = __dirname + '/data/' + req.path + '.lzdb',
             limit = req.limit,
             skip = req.skip || 0;
 
-        if (limit && limit <= data.length) {
-            if (limit == 1) {
-                return cb(null, data[0]);
-            }
+        filePromiseAplus(file)
+        .then((readFd)=>{
+            fs.readFile(file, 'utf-8', (err, data)=>{
+                if (err) {throw err;}
 
-            let retAr = [];
+                data = '[' + data + ']';
+                data = JSON.parse(data);
 
-            for (let i = 0, j = skip; i < limit; i++, j++) {
+                if (!limit){
+                    limit = data.length;
+                }
 
-                retAr[i] = data[j];
-            }
-            return cb(null, retAr);
-        }
+                if (limit == 1) {
 
-        return cb(null, data);
+                    fs.close(readFd);
+                    return cb(null, data[skip]);
+                } else {
+
+                    let retAr = [];
+
+                    for (let i = 0, j = skip; i < limit; i++, j++) {
+                        if (data[j] instanceof Object) {
+                            retAr[i] = data[j];
+                        }
+                    }
+
+                    fs.close(readFd);
+                    return cb(null, retAr);
+                }
+            });
+        })//then for filePromiseAplus
+        .catch((reason)=>{
+            console.log('REASON->read', reason);
+        });
     },
+
     'update': (req, res, cb) => {
         'use strict';
 
-        let file = __dirname + '/data/' + req.path + '.json',
-            data = require(file);
+        let file = __dirname + '/data/' + req.path + '.lzdb';
+        filePromiseAplus(file)
+        .then((updateFd)=>{
+            fs.readFile(file, 'utf-8', (err, data)=>{
+                data = JSON.parse('[' + data + ']');
 
-        data[req.body.index - 1] = req.body;
+                let index = obj.index(data, '_id', req.body._id);
 
-        fs.writeFile(file, JSON.stringify(data), (err) => {
-            if (err) {
-                throw err;
-            }
+                data[index] = req.body;
+                data = JSON.stringify(data);
 
-            return cb(null, req.body);
+                data = data.substring(1, data.length - 1);
+
+                fs.writeFile(file, data, (err)=>{
+                    if (err) {throw err;}
+
+                    fs.close(updateFd);
+                    return cb(null, req.body);
+                });
+            });
+        })
+        .catch((reason)=>{
+            console.log('REASON->update', reason);
         });
     },
+
     'delete': (req, res, cb) => {
         'use strict';
 
-        let file = __dirname + '/data/' + req.path + '.json',
-            data = require(file),
-            toRemove = data.indexOf({'index': req.body.index});
+        let file = __dirname + '/data/' + req.path + '.lzdb';
+        filePromiseAplus(file)
+        .then((deleteFd)=>{
+            fs.readFile(file, 'utf-8', (err, data)=>{
+                data = JSON.parse('[' + data + ']');
 
-        data.splice((req.body.index -1), 1);
-        return cb(null, true);
+                let index = obj.index(data, '_id', req.body._id);
+
+                if (index === -1) {return  cb('NO_DATA_TO_DELETE');}
+
+                data.splice(index, 1);
+
+                data = JSON.stringify(data);
+                data = data.substring(1, data.length - 1);
+
+                fs.writeFile(file, data, (err)=>{
+
+                    fs.close(deleteFd);
+                    return cb(null, true);
+                });
+            });
+        })
+        .catch((reason)=>{
+            console.log('REASON->x', reason);
+        });
     }
 };
