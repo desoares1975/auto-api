@@ -94,7 +94,6 @@ module.exports = {
             console.log('REASON->read', reason);
         });
     },
-
     'update': (req, res, cb) => {
         'use strict';
 

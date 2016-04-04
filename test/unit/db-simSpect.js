@@ -173,7 +173,7 @@ describe('Testing dbSim CRUD ',  () => {
         });
     });
 
-    it('Test read method', (done) => {
+    it('Test read method find Abe Abeson', (done) => {
         let res = new Response('/user_test'),
             req = {};
 
@@ -285,7 +285,7 @@ describe('Testing dbSim CRUD ',  () => {
 
     });
 
-    it ('Test update method', (done) => {
+    it ('Test update method - "David Davidson" should be "Fabio Desoares"', (done) => {
         let res = new Response('/user_test'),
             req = {},
             file = __dirname + '/../../db-sim/data/user_test.lzdb';
