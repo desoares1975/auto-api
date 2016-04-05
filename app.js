@@ -21,12 +21,13 @@ app.all('*', function(req, res, next) {
   next();
 });
 
+require('./routes')(app);
 //base route
-app.get('*', function(req, res) {
-  test = db.read(req, res);
-  console.log(test);
-   return res.status(200).json({data: test});
-});
+// app.get('*', function(req, res) {
+//   test = db.read(req, res);
+//   console.log(test);
+//    return res.status(200).json({data: test});
+// });
 /*
 app.post('/contatos', function(req, res) {
   contatos.push(req.body);
