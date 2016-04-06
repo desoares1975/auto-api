@@ -14,14 +14,10 @@ function resolvePath(req, res, next) {
     return next();
 }
 
-function resRoot(req, res) {
-    return  res.status(200).json(app.rootPage);
-}
-
 function routes(app) {
 	'use strict';
 
-    app.get('/', resRoot);
+    app.all('/', (req, res)=>{ return res.status(200).json(app.rootPage); });
     app.get('*', resolvePath, get.read);
 	app.post('*');
 	app.put('*');
