@@ -7,16 +7,21 @@ var expect = require('chai').expect,
 describe('Routes', ()=>{
     'use strict';
     let filePath = __dirname + '/../../db-sim/data/',
-    	file = filePath + 'user_func_test.lzdb';
-    before((done)=>{
+    	file = filePath + 'user_get.lzdb';
 
+    before((done)=>{
         fs.readFile(__dirname + '/../fixtures/user.md', 'utf-8', (err, data)=>{
             if (err) { return done(err); }
             fs.writeFile(file, data, (err, fd)=>{
             	if (err) {return done(err);}
             });
-        	done();
+
+            fs.writeFile(filePath + 'user_post.lzdb', data, (err, fd)=>{
+                if (err) {return done(err);}
+            });
         });
+
+        done();
     });
 
     after((done)=>{
@@ -27,7 +32,38 @@ describe('Routes', ()=>{
     	fs.unlink(filePath + 'not_a_route.lzdb', (err)=>{
     		if (err) { done(err); }
     	});
+        fs.unlink(filePath + 'user_post.lzdb', (err)=>{
+            if (err) { done(err); }
+        });
     	done();
+    });
+
+    describe('POST', ()=>{
+        it('Should create a new user and return it', (done)=>{
+            let newUser = {
+                'name': 'Fabio Dias Soare',
+                'age': '41',
+                'address': 'Dr. Jaci, 307'
+            };
+
+            request(app)
+            .post('/user_post')
+            .set('Accept', 'application/json')
+            .send(newUser)
+            .expect(200)
+            .end((err, res)=>{
+                if (err) {return done(err);}
+                expect(res.body).to.have.property('_id');
+                expect(res.body.name).to.deep.equal(newUser.name);
+                fs.readFile(filePath + 'user_post.lzdb', 'utf-8', (err, data)=>{
+                    if (err) {return done(err);}
+                    data = JSON.parse('['+data+']');
+
+                    expect(data[data.length - 1].name).to.deep.equal(newUser.name);
+                    done();
+                });
+            });
+        });
     });
 
     describe('Root directory', ()=>{
@@ -73,7 +109,7 @@ describe('Routes', ()=>{
 	    });
 	    it('Should return a colection of users', (done)=>{
 	    	request(app)
-	    	.get('/user_func_test')
+	    	.get('/user_get')
 	    	.expect(200)
 	    	.end((err, res)=>{
 	    		expect(res.body).to.be.an('array');
@@ -85,7 +121,7 @@ describe('Routes', ()=>{
 	    });
 	    it('Should return only one document', (done)=>{
 	    	request(app)
-	    	.get('/user_func_test/3')
+	    	.get('/user_get/3')
 	    	.expect(200)
 	    	.end((err, res)=>{
 	    		expect(res.body).to.be.an('object');
@@ -96,12 +132,12 @@ describe('Routes', ()=>{
 	    });
 	    it('Should nor return a document for a invalid _id', (done)=>{
 	    	request(app)
-	    	.get('/user_func_test/12')
+	    	.get('/user_get/12')
 	    	.expect(404)
 	    	.end((err, res)=>{
 	    		expect(res.body).to.be.an('object');
 	    		expect(res.body).to.have.property('reason');
-	    		expect(res.body.reason).to.deep.equal('Data in /user_func_test/12 not found.');
+	    		expect(res.body.reason).to.deep.equal('Data in /user_get/12 not found.');
 	    		done();
 	    	});
 	    });

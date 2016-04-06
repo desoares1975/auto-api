@@ -37,7 +37,8 @@ module.exports = {
         'use strict';
 
         let file = __dirname + '/data/' + (req.url || req.path) + '.lzdb',
-            coma = '';
+            coma = '',
+            doc;
 
         filePromiseAplus(file)
         .then((fdCreate)=>{
@@ -51,7 +52,13 @@ module.exports = {
 
                 if (req.body instanceof Object){
                     req.body._id = Date.now();
-                    fs.appendFile(file, coma + JSON.stringify(req.body), (err)=>{
+                    try {
+                        doc = JSON.stringify(req.body);
+                    } catch(err) {
+                        return cb(err);
+                    }
+
+                    fs.appendFile(file, coma + doc, (err)=>{
                         if (err) {return cb(err);}
 
                         fs.close(fdCreate);

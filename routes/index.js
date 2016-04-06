@@ -1,5 +1,6 @@
 /* jshint esversion: 6 */
-var get = require('./get');
+var get = require('./get'),
+    post = require('./post');
 
 function resolvePath(req, res, next) {
     'use strict';
@@ -19,7 +20,7 @@ function routes(app) {
 
     app.all('/', (req, res)=>{ return res.status(200).json(app.rootPage); });
     app.get('*', resolvePath, get.read);
-	app.post('*');
+	app.post('*', post.create);
 	app.put('*');
 	app.delete('*');
 }
