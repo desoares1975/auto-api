@@ -5,4 +5,5 @@ db-sim/data/.lzdb
 db-sim/data/null.lzdb
 db-sim/data/undefined
 db-sim/data/undefined.lzdb
+db-sim/data/favicon.ico.lzdb
 
