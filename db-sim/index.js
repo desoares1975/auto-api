@@ -15,19 +15,35 @@ function filePromiseAplus(file) {
         });
     });
 }
+function pathPromise(path) {
+    'use strict';
 
+    return new Promise((resolve, reject)=>{
+        let lastSla = path.lastIndexOf('/');
+
+        if (err) {return reject(err);}
+
+        if (lastSla !== 1){
+            let path = path.substring(0, lastSla);
+            return resolve(path);
+        } else {
+            return resolve(path);
+        }
+
+    });
+}
 module.exports = {
     'create': (req, res, cb) => {
         'use strict';
 
-        let file = __dirname + '/data/' + req.path + '.lzdb',
+        let file = __dirname + '/data/' + (req.url || req.path) + '.lzdb',
             coma = '';
 
         filePromiseAplus(file)
         .then((fdCreate)=>{
 
             fs.readFile(file, 'utf-8', (err, data)=>{
-                if (err) {throw err;}
+                if (err) {return cb(err);}
 
                 if (data) {
                     coma = ',';
@@ -36,7 +52,7 @@ module.exports = {
                 if (req.body instanceof Object){
                     req.body._id = Date.now();
                     fs.appendFile(file, coma + JSON.stringify(req.body), (err)=>{
-                        if (err) {throw err;}
+                        if (err) {return cb(err);}
 
                         fs.close(fdCreate);
                         return cb(null, req.body);
@@ -49,6 +65,7 @@ module.exports = {
             });
         }).catch((reason)=>{
             console.log('REASON->create', reason);
+            return cb(reason);
         });
     },
 
@@ -62,7 +79,7 @@ module.exports = {
         filePromiseAplus(file)
         .then((readFd)=>{
             fs.readFile(file, 'utf-8', (err, data)=>{
-                if (err) {throw err;}
+                if (err) {return cb(err);}
 
                 data = '[' + data + ']';
                 data = JSON.parse(data);
@@ -92,6 +109,7 @@ module.exports = {
         })//then for filePromiseAplus
         .catch((reason)=>{
             console.log('REASON->read', reason);
+            return cb(reason);
         });
     },
     'update': (req, res, cb) => {
@@ -111,7 +129,7 @@ module.exports = {
                 data = data.substring(1, data.length - 1);
 
                 fs.writeFile(file, data, (err)=>{
-                    if (err) {throw err;}
+                    if (err) {return cb(err);}
 
                     fs.close(updateFd);
                     return cb(null, req.body);
@@ -120,6 +138,7 @@ module.exports = {
         })
         .catch((reason)=>{
             console.log('REASON->update', reason);
+            return cb(reason);
         });
     },
 
@@ -150,6 +169,7 @@ module.exports = {
         })
         .catch((reason)=>{
             console.log('REASON->x', reason);
+            return cb(reason);
         });
     }
 };

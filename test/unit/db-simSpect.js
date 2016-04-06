@@ -173,6 +173,47 @@ describe('Testing dbSim CRUD ',  () => {
         });
     });
 
+    it('Test create method for a _id path', (done) => {
+        let fileName = 'test_new_file',
+            res = new Response('/' + fileName + '/2'),
+            req = {};
+
+        req.path = fileName + '/2';
+        req.url = fileName;
+        req.body = {
+            'data0': 'Test data 15',
+            'data1': 'Test data 02',
+            'data3': 1975,
+            'data4': [15,7,11,13]
+        };
+
+        db.create(req, res, (err, data) => {
+            if (err) {throw err;}
+
+            let file = __dirname + '/../../db-sim/data/' + fileName + '.lzdb';
+
+            expect(data.data0).to.deep.equal('Test data 15');
+            expect(data.data3).to.be.an('number');
+            expect(data.data4).to.be.an('Array');
+            expect(data.data4.length).to.deep.equal(4);
+            fs.open(file, 'r', (err, fdRead)=>{
+
+                fs.readFile(file, 'utf-8', (err, storedData)=>{
+                    if (err) {throw err;}
+
+                    storedData = '[' + storedData + ']';
+                    storedData = JSON.parse(storedData);
+                    expect(storedData.length).to.deep.equal(3);
+                    expect(storedData[0].data0).to.deep.equal('Test data 0');
+                    expect(storedData[0].data3).to.be.an('number');
+                    expect(storedData[0].data4).to.deep.equal(['a', 'b', 'c', 'd', 'e']);
+
+                    done();
+                });
+            });
+        });
+    });
+
     it('Test read method find Abe Abeson', (done) => {
         let res = new Response('/user_test'),
             req = {};

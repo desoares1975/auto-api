@@ -2,10 +2,8 @@
 var expect = require('chai').expect,
 	fs = require('fs'),
 	get = require('../../routes/get').read,
-    mock = require('node-mocks-http'),
-	Response = require('mock-response');
+    mock = require('node-mocks-http');
 
-console.log(get);
 describe('Test get verb methods', ()=>{
     'use strict';
 
@@ -26,18 +24,15 @@ describe('Test get verb methods', ()=>{
 	});
 
 	it('test main GET route', (done)=>{
-    var req = mock.createRequest({
-        'method': 'GET',
-        'url': '/user_test'
-    });
+        var req = mock.createRequest({
+                'method': 'GET',
+                'url': '/user_test'
+            });
 
-    var res = mock.createResponse();
-
-    let test = get(req, res);
-
-    var data = res._getData();
-console.log(test, data,'???????????????????????????AA?A?A?A?A?A?')
-
-		done();
+        req.limit = 4;
+        req.skip = 5;
+        var res = mock.createResponse();
+        var test = get(req, res);
+	   done();
 	});
 });
