@@ -7,13 +7,12 @@ module.exports.read = (req, res)=>{
 
     db(req, res, (err, doc)=>{
 
-        if (doc.length === 0) {
-            return res.status(404).json({'reason': 'Data in ' + (req.url || req.path) + '/' +
-                req.params._id + ' not found.'});
-        }
-
         if (err) {
             return res.status(500).json(err);
+        }
+
+        if (!doc || doc.length === 0) {
+            return res.status(200).json([]);
         }
 
         if (req.params._id) {

@@ -1,3 +1,8 @@
 node_modules/
 db-sim/data/test.lzdb
 db-sim/data/user_test.lzdb
+db-sim/data/.lzdb
+db-sim/data/null.lzdb
+db-sim/data/undefined
+db-sim/data/undefined.lzdb
+
