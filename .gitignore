@@ -1,5 +1,3 @@
 node_modules/
-db-sim/data/test.json
-db-sim/data/user_test.json
-db-sim/data/indexes/test_index.md
-db-sim/data/indexes/user_test_index.md
+db-sim/data/test.lzdb
+db-sim/data/user_test.lzdb

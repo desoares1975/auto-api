@@ -6,8 +6,7 @@ var express = require('express'),
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json());
 
-app.port = process.argv[2] || 9000;
-
+app.port = parseInt(process.argv[2]) || 9000;
 app.listen(app.port, function() {
   console.log('Application up and running on port ', app.port);
 });
