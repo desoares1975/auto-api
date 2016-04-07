@@ -54,5 +54,19 @@ describe('PUT routes', ()=>{
 	        	done();
 	        });
 	    });
+	    it('Should return error for unexistant _id', (done)=>{
+			let newData = {
+    			"name": "No name",
+    			"age": 0,
+    			"address": "No address"
+	    	};
+	    	request(app)
+	    	.put('/user_put/122')
+	    	.expect(500)
+	    	.end((err, res)=>{
+	    		console.log(err)
+	    		done();
+	    	});
+	    });
 	});
 });

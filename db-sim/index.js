@@ -130,6 +130,9 @@ module.exports = {
 
                 let index = obj.index(data, '_id', req.params._id);
 
+                if (index === -1) {
+                    return cb(new Error('No data was found unde the _id ' + req.params._id));
+                }
                 data[index]._id = req.params._id;
                 for (let key in data[index]) {
                     if (key !== '_id'){
