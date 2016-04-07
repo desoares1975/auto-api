@@ -305,6 +305,8 @@ describe('Testing dbSim CRUD ',  () => {
                     data.age = 99;
                     req.path = 'user_test';
                     req.body = data;
+                    req.params = {};
+                    req.params._id = data._id;
 
                     db.update(req, res, (err, change) => {
                         expect(change._id).to.deep.equal(10);
@@ -340,6 +342,8 @@ describe('Testing dbSim CRUD ',  () => {
                     data.age = 41;
                     req.path = 'user_test';
                     req.body = data;
+                    req.params = {};
+                    req.params._id = data._id;
 
                     db.update(req, res, (err, change) => {
                         expect(change._id).to.deep.equal(6);

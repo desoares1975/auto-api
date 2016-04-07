@@ -1,11 +1,11 @@
 /* jshint esversion: 6 */
-var db = require('../db-sim').read,
+var read = require('../db-sim').read,
     obj = require('../lib/object-value');
 
 module.exports.read = (req, res)=>{
     'use strict';
 
-    db(req, res, (err, doc)=>{
+    read(req, res, (err, doc)=>{
 
         if (err) {
             return res.status(500).json(err);

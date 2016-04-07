@@ -54,8 +54,8 @@ module.exports = {
                     req.body._id = Date.now();
                     try {
                         doc = JSON.stringify(req.body);
-                    } catch(err) {
-                        return cb(err);
+                    } catch(error) {
+                        return cb(error);
                     }
 
                     fs.appendFile(file, coma + doc, (err)=>{
@@ -128,11 +128,15 @@ module.exports = {
             fs.readFile(file, 'utf-8', (err, data)=>{
                 data = JSON.parse('[' + data + ']');
 
-                let index = obj.index(data, '_id', req.body._id);
+                let index = obj.index(data, '_id', req.params._id);
 
-                data[index] = req.body;
+                data[index]._id = req.params._id;
+                for (let key in data[index]) {
+                    if (key !== '_id'){
+                        data[index][key] = req.body[key];
+                    }
+                }
                 data = JSON.stringify(data);
-
                 data = data.substring(1, data.length - 1);
 
                 fs.writeFile(file, data, (err)=>{

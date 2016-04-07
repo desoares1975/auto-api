@@ -1,0 +1,12 @@
+/* jshint esversion: 6 */
+var update = require('../db-sim').update;
+
+module.exports.update = (req, res)=>{
+    'use strict';
+
+    update(req, res, (err, doc)=>{
+        if (err || !req.params._id) { return res.status(500).json(err); }
+
+        return res.status(500).json(doc);
+    });
+};

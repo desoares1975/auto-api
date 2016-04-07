@@ -1,6 +1,7 @@
 /* jshint esversion: 6 */
 var get = require('./get'),
-    post = require('./post');
+    post = require('./post'),
+    put = require('./put');
 
 function resolvePath(req, res, next) {
     'use strict';
@@ -11,7 +12,6 @@ function resolvePath(req, res, next) {
         req.params._id = req.path.substring(lastSlash + 1, req.path.length);
         req.url = req.path.substring(0, lastSlash);
     }
-
     return next();
 }
 
@@ -19,9 +19,9 @@ function routes(app) {
 	'use strict';
 
     app.all('/', (req, res)=>{ return res.status(200).json(app.rootPage); });
-    app.get('*', resolvePath, get.read);
 	app.post('*', post.create);
-	app.put('*');
+    app.get('*', resolvePath, get.read);
+	app.put('*', resolvePath, put.update);
 	app.delete('*');
 }
 
