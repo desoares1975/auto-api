@@ -1,16 +1,17 @@
 {
   "name": "auto-api",
-  "version": "1.0.0",
-  "description": "Small REST API for programming practice or learning",
+  "version": "1.0.1",
+  "description": "An automated mall REST API, with a DB simulator for programming practice or learning",
   "main": "index.js",
   "scripts": {
     "start": " jshint  ./; ./node_modules/.bin/nodemon app.js;",
     "test": "echo 'lazy-api test mode...'; jshint ./; ./node_modules/.bin/nodemon --exec mocha --ignore db-sim/data/"
   },
   "keywords": [
-    "node.js",
-    "small",
-    "api"
+    "rest",
+    "automated",
+    "api",
+    ""
   ],
   "author": "desoares1975",
   "license": "MIT",

@@ -34,3 +34,4 @@ $ node app.js 8000 (will start on port 8000)
   * It will persist the data in files, simulating a database
   * Super-high test coverage
   * Can use both limit and skip for listing
+  * Perfect to abstract server on Angular studing
