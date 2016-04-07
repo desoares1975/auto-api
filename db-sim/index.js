@@ -131,7 +131,7 @@ module.exports = {
                 let index = obj.index(data, '_id', req.params._id);
 
                 if (index === -1) {
-                    return cb(new Error('No data was found unde the _id ' + req.params._id));
+                    return cb(null, {'reason': 'No data was found under the _id ' + req.params._id});
                 }
                 data[index]._id = req.params._id;
                 for (let key in data[index]) {
@@ -165,9 +165,11 @@ module.exports = {
             fs.readFile(file, 'utf-8', (err, data)=>{
                 data = JSON.parse('[' + data + ']');
 
-                let index = obj.index(data, '_id', req.body._id);
+                let index = obj.index(data, '_id', req.params._id);
 
-                if (index === -1) {return  cb('NO_DATA_TO_DELETE');}
+                 if (index === -1) {
+                    return cb(null, {'reason': 'No data was found under the _id ' + req.params._id});
+                }
 
                 data.splice(index, 1);
 

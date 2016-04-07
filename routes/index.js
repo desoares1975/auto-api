@@ -1,7 +1,8 @@
 /* jshint esversion: 6 */
 var get = require('./get'),
     post = require('./post'),
-    put = require('./put');
+    put = require('./put'),
+    del = require('./delete');
 
 function resolvePath(req, res, next) {
     'use strict';
@@ -22,7 +23,7 @@ function routes(app) {
 	app.post('*', post.create);
     app.get('*', resolvePath, get.read);
 	app.put('*', resolvePath, put.update);
-	app.delete('*');
+	app.delete('*', resolvePath, del.delete);
 }
 
 module.exports = routes;

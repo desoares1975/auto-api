@@ -305,8 +305,7 @@ describe('Testing dbSim CRUD ',  () => {
                     data.age = 99;
                     req.path = 'user_test';
                     req.body = data;
-                    req.params = {};
-                    req.params._id = data._id;
+                    req.params = {'_id': data._id};
 
                     db.update(req, res, (err, change) => {
                         expect(change._id).to.deep.equal(10);
@@ -342,8 +341,7 @@ describe('Testing dbSim CRUD ',  () => {
                     data.age = 41;
                     req.path = 'user_test';
                     req.body = data;
-                    req.params = {};
-                    req.params._id = data._id;
+                    req.params = {'_id': data._id};
 
                     db.update(req, res, (err, change) => {
                         expect(change._id).to.deep.equal(6);
@@ -370,7 +368,7 @@ describe('Testing dbSim CRUD ',  () => {
                 file = __dirname + '/../../db-sim/data/user_test.lzdb';
 
             req.path = 'user_test';
-            req.body = {'_id': 4};
+            req.params = {'_id': 4};
             db.delete(req, res, (err, deleted) => {
                 if (err) {
                     throw err;
@@ -392,10 +390,9 @@ describe('Testing dbSim CRUD ',  () => {
                 file = __dirname + '/../../db-sim/data/user_test.lzdb';
 
             req.path = 'user_test';
-            req.body = {'_id': 4};
+            req.params = {'_id': 4};
             db.delete(req, res, (err, deleted) => {
-                expect(err).to.deep.equal('NO_DATA_TO_DELETE');
-                expect(deleted).to.deep.equal(undefined);
+                expect(deleted.reason).to.deep.equal('No data was found under the _id 4');
                 fs.readFile(file, 'utf-8', (err, data)=>{
                     data = JSON.parse('[' + data + ']');
                     expect(data.length).to.deep.equal(9);
