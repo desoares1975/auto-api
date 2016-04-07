@@ -225,8 +225,9 @@ describe('Testing dbSim CRUD ',  () => {
             db.read(req, res, function (err, data) {
                 if (err) {throw err;}
 
-                expect(data).to.be.an('object');
-                expect(data.name).to.deep.equal("Abe Abeson");
+                expect(data).to.be.an('array');
+                expect(data.length).to.equal(1)
+                expect(data[0].name).to.deep.equal("Abe Abeson");
                 done();
             });
         });

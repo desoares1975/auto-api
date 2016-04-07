@@ -88,13 +88,17 @@ module.exports = {
             fs.readFile(file, 'utf-8', (err, data)=>{
                 if (err) {return cb(err);}
 
-                data = JSON.parse('[' + data + ']');
+                try {
+                    data = JSON.parse('[' + data + ']');
+                } catch(error) {
+                    return cb(error);
+                }
                 limit = limit || data.length;
 
-                if (limit == 1) {
+                if (limit === 1) {
 
                     fs.close(readFd);
-                    return cb(null, data[skip]);
+                    return cb(null, [data[skip]]);
                 } else {
 
                     let retAr = [];
@@ -122,7 +126,11 @@ module.exports = {
         filePromiseAplus(file)
         .then((updateFd)=>{
             fs.readFile(file, 'utf-8', (err, data)=>{
-                data = JSON.parse('[' + data + ']');
+                try {
+                    data = JSON.parse('[' + data + ']');
+                } catch(error) {
+                    return cb(error);
+                }
 
                 let index = obj.index(data, '_id', req.params._id);
 
@@ -135,7 +143,11 @@ module.exports = {
                         data[index][key] = req.body[key];
                     }
                 }
-                data = JSON.stringify(data);
+                try {
+                    data = JSON.stringify(data);
+                } catch(error) {
+                    return cb(error);
+                }
                 data = data.substring(1, data.length - 1);
 
                 fs.writeFile(file, data, (err)=>{
@@ -159,7 +171,11 @@ module.exports = {
         filePromiseAplus(file)
         .then((deleteFd)=>{
             fs.readFile(file, 'utf-8', (err, data)=>{
-                data = JSON.parse('[' + data + ']');
+                try{
+                    data = JSON.parse('[' + data + ']');
+                } catch(error) {
+                    return cb(error);
+                }
 
                 let index = obj.index(data, '_id', req.params._id);
 
@@ -168,8 +184,11 @@ module.exports = {
                 }
 
                 data.splice(index, 1);
-
-                data = JSON.stringify(data);
+                try{
+                    data = JSON.stringify(data);
+                } catch (error) {
+                    return  cb(error);
+                }
                 data = data.substring(1, data.length - 1);
 
                 fs.writeFile(file, data, (err)=>{
