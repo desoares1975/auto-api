@@ -1,5 +1,5 @@
 {
-  "name": "lazy-api",
+  "name": "auto-api",
   "version": "1.0.0",
   "description": "Small REST API for programming practice or learning",
   "main": "index.js",
