@@ -22,7 +22,6 @@ describe('DELETE routes', ()=>{
     });
 
     after((done)=>{
-
     	fs.unlink(file, (err)=>{
     	   if (err) { done(err); }
     	   done();
@@ -30,16 +29,36 @@ describe('DELETE routes', ()=>{
     });
 
     describe('DELETE', ()=>{
-	    it('', (done)=>{
-
+	    it('Should delete the frist document', (done)=>{
 	        request(app)
-	        .delete('/user_delete/7')
+	        .delete('/user_delete/1')
 	        .set('Accept', 'application/json')
 	        .expect(200)
 	        .end((err, res)=>{
 	        	if (err) { return done(err); }
-	        	done();
+	        	fs.readFile(file, 'utf-8', (err, data)=>{
+	        		if (err) { return done(err); }
+	        		data = JSON.parse('[' + data + ']');
+	        		let index = obj(data, '_id', 1);
+	        		expect(data.length).to.deep.equal(9);
+	        		expect(index).to.deep.equal(-1);
+	        		done();
+	        	});
 	        });
+	    });
+	    it('Should return 404 when trying to delete inexitent document', (done)=>{
+	    	request(app)
+	    	.delete('/user_delete/1')
+	    	.expect(404)
+	    	.end((err, res)=>{
+	    		if (err) { return done(err); }
+	    		fs.readFile(file, 'utf-8', (err, data)=>{
+	    			if (err) { return done(err); }
+	    			data = JSON.parse('[' + data + ']');
+	    			expect(data.length).to.deep.equal(9);
+	    			done();
+	    		});
+	    	});
 	    });
 	});
 });
