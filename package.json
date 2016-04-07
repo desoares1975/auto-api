@@ -1,8 +1,8 @@
 {
   "name": "lazy-api",
   "version": "1.0.0",
-  "description": "Small REST API for programming practice",
-  "main": "app.js",
+  "description": "Small REST API for programming practice or learning",
+  "main": "index.js",
   "scripts": {
     "start": " jshint  ./; ./node_modules/.bin/nodemon app.js;",
     "test": "echo 'lazy-api test mode...'; jshint ./; ./node_modules/.bin/nodemon --exec mocha --ignore db-sim/data/"

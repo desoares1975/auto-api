@@ -1,7 +1,7 @@
 /*jshint esversion: 6, strict:true */
 var expect = require('chai').expect,
     request = require('supertest'),
-    app = require('../../app');
+    app = require('../../auto-api');
 
 describe('Root routes', ()=>{
     'use strict';
@@ -14,7 +14,6 @@ describe('Root routes', ()=>{
     		.end((err, res)=>{
     			expect(res.body.title).to.deep.equal('Welcome to LazyAPI.');
     			expect(res.body).to.have.property('message');
-    			expect(res.body.readme).to.deep.equal('/home/desoares/projetos/lazy-apipublic/documentation/README.md');
     			done();
     		});
     	});

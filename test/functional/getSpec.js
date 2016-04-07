@@ -1,7 +1,7 @@
 /*jshint esversion: 6, strict:true */
 var expect = require('chai').expect,
     request = require('supertest'),
-    app = require('../../app'),
+    app = require('../../auto-api'),
     fs = require('fs');
 
 describe('GET routes', ()=>{
