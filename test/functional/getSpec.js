@@ -49,6 +49,7 @@ describe('GET routes', ()=>{
 	    	.get('/user_get')
 	    	.expect(200)
 	    	.end((err, res)=>{
+	    		if (err) {return done(err);}
 	    		expect(res.body).to.be.an('array');
 	    		expect(res.body.length).to.deep.equal(10);
 	    		expect(res.body[0].name).to.deep.equal('Abe Abeson');
@@ -63,6 +64,7 @@ describe('GET routes', ()=>{
 	    	.get('/user_get/3')
 	    	.expect(200)
 	    	.end((err, res)=>{
+	    		if (err) {return done(err);}
 	    		expect(res.body).to.be.an('object');
 	    		expect(res.body.name).to.deep.equal('Jonah James Jameson');
 	    		expect(res.body.age).to.deep.equal(56);
@@ -74,6 +76,7 @@ describe('GET routes', ()=>{
 	    	.get('/user_get/12')
 	    	.expect(404)
 	    	.end((err, res)=>{
+	    		if (err) {return done(err);}
 	    		expect(res.body).to.be.an('object');
 	    		expect(res.body).to.have.property('reason');
 	    		expect(res.body.reason).to.deep.equal('Data in /user_get/12 not found.');

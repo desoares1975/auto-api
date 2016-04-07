@@ -73,7 +73,9 @@ describe('POST routes', ()=>{
             .post('/test_document')
             .set('Accept', 'application/json')
             .send(newDoc)
+            .expect(200)
             .end((err, res)=>{
+                if (err) {return done(err);}
                 expect(res.body).to.have.property('title');
                 expect(res.body).to.have.property('content');
                 expect(res.body).to.have.property('arrayData');

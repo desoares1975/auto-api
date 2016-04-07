@@ -41,7 +41,9 @@ describe('PUT routes', ()=>{
 	        .put('/user_put/7')
 	        .set('Accept', 'application/json')
 	        .send(newData)
+	        .expect(200)
 	        .end((err, res)=>{
+	        	if (err) {return done(err);}
 				expect(res.body.name).to.deep.equal(newData.name);
 				fs.readFile(file, 'utf-8', (err, data)=>{
 					if (err) { return done(err); }
@@ -50,11 +52,11 @@ describe('PUT routes', ()=>{
 					expect(data[index].name).to.deep.equal(newData.name);
 					expect(data[index].name).to.deep.equal('Finny Finnyghan');
 					expect(data[index].age).to.deep.equal(24);
+	        		done();
 				});
-	        	done();
 	        });
 	    });
-	    it('Should return error for unexistant _id', (done)=>{
+	    it('Should return 404 error for inexistent _id', (done)=>{
 			let newData = {
     			"name": "No name",
     			"age": 0,
@@ -62,9 +64,12 @@ describe('PUT routes', ()=>{
 	    	};
 	    	request(app)
 	    	.put('/user_put/122')
-	    	.expect(500)
+	    	.set('Accept', 'application/json')
+	    	.send(newData)
+	    	.expect(404)
 	    	.end((err, res)=>{
-	    		console.log(err)
+	    		if (err) {return done(err);}
+	    		expect(res.body.reason).to.deep.equal('No data was found under the _id 122');
 	    		done();
 	    	});
 	    });
