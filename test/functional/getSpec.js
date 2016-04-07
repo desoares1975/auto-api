@@ -58,7 +58,7 @@ describe('GET routes', ()=>{
 	    	});
 	    });
     });
-    describe('GET:_id routes', ()=>{
+    describe('GET/:_id routes', ()=>{
 	    it('Should return only one document', (done)=>{
 	    	request(app)
 	    	.get('/user_get/3')
@@ -80,6 +80,32 @@ describe('GET routes', ()=>{
 	    		expect(res.body).to.be.an('object');
 	    		expect(res.body).to.have.property('reason');
 	    		expect(res.body.reason).to.deep.equal('Data in /user_get/12 not found.');
+	    		done();
+	    	});
+	    });
+    });
+    describe('GET/:limit/:skip routes', ()=>{
+	    it('Should return 3 documents', (done)=>{
+	    	request(app)
+	    	.get('/user_get/3/0')
+	    	.expect(200)
+	    	.end((err, res)=>{
+	    		if (err) {return done(err);}
+	    		expect(res.body).to.be.an('array');
+	    		expect(res.body.length).to.equal(3);
+	    		done();
+	    	});
+	    });
+	    it('Should return 4 documents skiping first 3', (done)=>{
+	    	request(app)
+	    	.get('/user_get/4/3')
+	    	.expect(200)
+	    	.end((err, res)=>{
+	    		if (err) {return done(err);}
+	    		expect(res.body).to.be.an('array');
+	    		expect(res.body.length).to.equal(4);
+	    		expect(res.body[0].name).to.equal('Chalie Charlison');
+	    		expect(res.body[3].name).to.equal('Francine Farncison');
 	    		done();
 	    	});
 	    });

@@ -216,10 +216,12 @@ describe('Testing dbSim CRUD ',  () => {
     describe('read', ()=>{
         it('Should find first document of data set', (done) => {
             let res = new Response('/user_test'),
-                req = {};
+                req = {
+                    'params': {}
+                };
 
             req.path = 'user_test';
-            req.limit = 1;
+            req.params.limit = 1;
             db.read(req, res, function (err, data) {
                 if (err) {throw err;}
 
@@ -230,10 +232,12 @@ describe('Testing dbSim CRUD ',  () => {
         });
         it('Should return array of length 10 with limit 12', (done) => {
             let res = new Response('/user_test'),
-                req = {};
+                req = {
+                    'params': {}
+                };
 
             req.path = 'user_test';
-            req.limit = 12;
+            req.params.limit = 12;
             db.read(req, res, function (err, data) {
                 if (err) {
                     throw err;
@@ -246,10 +250,12 @@ describe('Testing dbSim CRUD ',  () => {
         });
         it('Should return array of 5 with limit 5', (done) => {
             let res = new Response('/user_test'),
-                req = {};
+                req = {
+                    'params': {}
+                };
 
             req.path = 'user_test';
-            req.limit = 5;
+            req.params.limit = 5;
             db.read(req, res, function (err, data) {
                 if (err) {throw err;}
 
@@ -264,6 +270,7 @@ describe('Testing dbSim CRUD ',  () => {
                 req = {};
 
             req.path = 'user_test';
+            req.params = {};
             db.read(req, res, function (err, data) {
                 if (err) {throw err;}
 
@@ -275,11 +282,13 @@ describe('Testing dbSim CRUD ',  () => {
         it('Should return array of 3 documents skipping first 2', (done) => {
 
             let res = new Response('/user_test'),
-                req = {};
+                req = {
+                    'params': {}
+                };
 
             req.path = 'user_test';
-            req.skip = 2;
-            req.limit = 3;
+            req.params.skip = 2;
+            req.params.limit = 3;
             db.read(req, res, function (err, data) {
                 if (err) {throw err;}
 

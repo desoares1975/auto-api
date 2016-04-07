@@ -79,21 +79,17 @@ module.exports = {
     'read': (req, res, cb) => {
         'use strict';
 
-        let file = __dirname + '/data/' + req.path + '.lzdb',
-            limit = req.limit,
-            skip = req.skip || 0;
+        let file = __dirname + '/data/' + (req.url || req.path) + '.lzdb',
+            limit = req.params.limit,
+            skip = req.params.skip || 0;
 
         filePromiseAplus(file)
         .then((readFd)=>{
             fs.readFile(file, 'utf-8', (err, data)=>{
                 if (err) {return cb(err);}
 
-                data = '[' + data + ']';
-                data = JSON.parse(data);
-
-                if (!limit){
-                    limit = data.length;
-                }
+                data = JSON.parse('[' + data + ']');
+                limit = limit || data.length;
 
                 if (limit == 1) {
 
