@@ -21,25 +21,25 @@ var expect = require('chai').expect,
 		"_requesterId" : "556538d485630fb03481c81c"
 	};
 describe('Testing object-value', function() {
-	describe('index', function () {
-		var myObjArray = [
-			myObject,
-			myObject1,
-			empty,
-			requester
-		];
+	'use strict';
 
-		it('Should return the -1 array because the array is empty', function (done) {
-			var checkObjInEmpArray = objectValue([], 'ignored', false);
+	var myObjArray = [
+		myObject,
+		myObject1,
+		empty,
+		requester
+	];
 
-			expect(checkObjInEmpArray).to.deep.equal(-1);
-			done();
-		});
-		it('Should return the index of a specific object in the array', function (done) {
-			var checkObjInArray = objectValue(myObjArray, 'ignored', false);
+	it('Should return the -1 array because the array is empty', function (done) {
+		var checkObjInEmpArray = objectValue([], 'ignored', false);
 
-			expect(checkObjInArray).to.deep.equal(3);
-			done();
-		});
+		expect(checkObjInEmpArray).to.deep.equal(-1);
+		done();
+	});
+	it('Should return the index of a specific object in the array', function (done) {
+		var checkObjInArray = objectValue(myObjArray, 'ignored', false);
+
+		expect(checkObjInArray).to.deep.equal(3);
+		done();
 	});
 });
