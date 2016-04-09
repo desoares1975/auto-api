@@ -15,7 +15,7 @@ describe('Pre load of data', ()=>{
 	it('Should return ok for loading filles', (done)=>{
 		preLoad([__dirname + '/../fixtures/cities_test.json', __dirname + '/../fixtures/social_test'], (err, ok)=>{
 			expect(ok).to.equal(true);
-			fs.readFile(__dirname + '/../../db-sim/data/cities.lzdb', 'utf-8', (err, data)=>{
+			fs.readFile(__dirname + '/../../db-sim/data/cities_test.lzdb', 'utf-8', (err, data)=>{
 				if (err) {return done(err); }
 				//////////need to test the data in the final files
 				done();

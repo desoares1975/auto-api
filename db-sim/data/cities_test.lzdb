@@ -1,0 +1,26 @@
+[
+	{
+		"city": "Sao Paulo",
+		"state": "SP"
+	},
+	{
+		"city": "Manaus",
+		"state": "AM"
+	},
+	{
+		"city":"Palmas",
+		"state":"TO"
+	},
+	{
+		"city":"Campinas",
+		"state":"SP"
+	},
+	{
+		"city":"Carmo do Rio CLaro",
+		"state":"MG"
+	},
+	{
+		"city":"Rio Branco",
+		"state":"AC"
+	}
+]
