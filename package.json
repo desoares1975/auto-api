@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": " jshint  ./; ./node_modules/.bin/nodemon app.js;",
-    "test": "echo 'lazy-api test mode...'; jshint ./; ./node_modules/.bin/nodemon --exec mocha --ignore db-sim/data/"
+    "test": "echo 'auto-api test mode...'; jshint ./; ./node_modules/.bin/nodemon --exec mocha --ignore db-sim/data/"
   },
   "keywords": [
     "rest",
@@ -25,7 +25,9 @@
     "supertest": "^1.2.0"
   },
   "dependencies": {
+    "async": "^2.0.0-rc.3",
     "body-parser": "^1.15.0",
+    "every-index-of": "^1.0.2",
     "express": "^4.13.4"
   }
 }
