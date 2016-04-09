@@ -1,6 +1,6 @@
 {
   "name": "auto-api",
-  "version": "1.0.1",
+  "version": "1.1.1",
   "description": "An automated mall REST API, with a DB simulator for programming practice or learning",
   "main": "index.js",
   "scripts": {

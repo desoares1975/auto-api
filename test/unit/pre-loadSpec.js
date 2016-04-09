@@ -17,7 +17,9 @@ describe('Pre load of data', ()=>{
 			expect(ok).to.equal(true);
 			fs.readFile(__dirname + '/../../db-sim/data/cities_test.lzdb', 'utf-8', (err, data)=>{
 				if (err) {return done(err); }
-				//////////need to test the data in the final files
+
+				data = JSON.parse(data);
+				expect(data[0].city).to.equal('Sao Paulo');
 				done();
 			});
 		});
