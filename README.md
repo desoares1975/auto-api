@@ -27,6 +27,7 @@ $ npm start (will start on port 9000, with nodemon and jshint)
 ```bash
 $ node app.js 8000 (will start on port 8000)
 ```
+```js
 //angular example
 $http.get('/anystring'); //wil return every document in a file
 $http.get('/anystring/1234556'); //wil return the document in a _id:1234556
@@ -37,6 +38,7 @@ even if you did not pre-loaded any files*/
 $http.put('/anystring/12456', {'name': 'Some Name'});/* will update a  document with _id:12456
 (_id was implemented as a Date.now())*/
 $http.delete('/anystring/4561234')//will delete de document with _id:4561234
+```
 ## Features
 
   * Can consume GET, POST, PUT or DELETE
