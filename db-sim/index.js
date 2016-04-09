@@ -1,6 +1,6 @@
 /* jshint esversion: 6 */
 var fs = require('fs'),
-    obj = require('../lib/object-value');
+    objIndex = require('../lib/object-value');
 
 function filePromiseAplus(file) {
     return new Promise((resolve, reject)=>{
@@ -132,7 +132,7 @@ module.exports = {
                     return cb(error);
                 }
 
-                let index = obj.index(data, '_id', req.params._id);
+                let index = objIndex(data, '_id', req.params._id);
 
                 if (index === -1) {
                     return cb(null, {'reason': 'No data was found under the _id ' + req.params._id});
@@ -177,7 +177,7 @@ module.exports = {
                     return cb(error);
                 }
 
-                let index = obj.index(data, '_id', req.params._id);
+                let index = objIndex(data, '_id', req.params._id);
 
                  if (index === -1) {
                     return cb(null, {'reason': 'No data was found under the _id ' + req.params._id});

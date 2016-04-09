@@ -1,6 +1,6 @@
 /* jshint esversion: 6 */
 var read = require('../db-sim').read,
-    obj = require('../lib/object-value');
+    objIndex = require('../lib/object-value');
 
 module.exports.read = (req, res)=>{
     'use strict';
@@ -16,7 +16,7 @@ module.exports.read = (req, res)=>{
         }
 
         if (req.params._id) {
-            let index = obj.index(doc, '_id', req.params._id);
+            let index = objIndex(doc, '_id', req.params._id);
             if (!doc[index]){
                 return res.status(404).json({'reason': 'Data in ' + (req.url || req.path) + '/' +
                 req.params._id + ' not found.'});

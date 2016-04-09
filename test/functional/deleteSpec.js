@@ -3,7 +3,7 @@ var expect = require('chai').expect,
     request = require('supertest'),
     app = require('../../auto-api'),
     fs = require('fs'),
-    obj = require('../../lib/object-value').index;
+    objIndex = require('../../lib/object-value');
 
 describe('DELETE routes', ()=>{
     'use strict';
@@ -39,7 +39,7 @@ describe('DELETE routes', ()=>{
 	        	fs.readFile(file, 'utf-8', (err, data)=>{
 	        		if (err) { return done(err); }
 	        		data = JSON.parse('[' + data + ']');
-	        		let index = obj(data, '_id', 1);
+	        		let index = objIndex(data, '_id', 1);
 	        		expect(data.length).to.deep.equal(9);
 	        		expect(index).to.deep.equal(-1);
 	        		done();

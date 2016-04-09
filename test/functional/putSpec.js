@@ -3,7 +3,7 @@ var expect = require('chai').expect,
     request = require('supertest'),
     app = require('../../auto-api'),
     fs = require('fs'),
-    obj = require('../../lib/object-value').index;
+    objIndex = require('../../lib/object-value');
 
 describe('PUT routes', ()=>{
     'use strict';
@@ -48,7 +48,7 @@ describe('PUT routes', ()=>{
 				fs.readFile(file, 'utf-8', (err, data)=>{
 					if (err) { return done(err); }
 					data = JSON.parse('[' + data + ']');
-					let index = obj(data, '_id', 7);
+					let index = objIndex(data, '_id', 7);
 					expect(data[index].name).to.deep.equal(newData.name);
 					expect(data[index].name).to.deep.equal('Finny Finnyghan');
 					expect(data[index].age).to.deep.equal(24);
