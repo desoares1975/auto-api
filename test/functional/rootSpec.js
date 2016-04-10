@@ -12,7 +12,7 @@ describe('Root routes', ()=>{
     		.get('/')
     		.expect(200)
     		.end((err, res)=>{
-    			expect(res.body.title).to.deep.equal('Welcome to LazyAPI.');
+    			expect(res.body.title).to.deep.equal('Welcome to autoAPI.');
     			expect(res.body).to.have.property('message');
     			done();
     		});

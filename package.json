@@ -4,7 +4,7 @@
   "description": "An automated mall REST API, with a DB simulator for programming practice or learning",
   "main": "index.js",
   "scripts": {
-    "start": " jshint  ./; ./node_modules/.bin/nodemon app.js;",
+    "start": " jshint  ./; ./node_modules/.bin/nodemon auto-api.js;",
     "test": "echo 'auto-api test mode...'; jshint ./; ./node_modules/.bin/nodemon --exec mocha --ignore db-sim/data/"
   },
   "keywords": [

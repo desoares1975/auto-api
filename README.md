@@ -27,6 +27,9 @@ $ npm start (will start on port 9000, with nodemon and jshint)
 ```bash
 $ node app.js 8000 (will start on port 8000)
 ```
+```bash
+$ node app.js 8000 /home/current_user/filename (will start on port 8000 and pre-load data from file)
+```
 ```js
 //angular example
 $http.get('/anystring'); //wil return every document in a file
@@ -45,5 +48,22 @@ $http.delete('/anystring/4561234')//will delete de document with _id:4561234
   * It will persist the data in files, simulating a database
   * Can use both limit and skip for listing
   * Perfect to abstract server on Angular studing
-  * Can pre load data on starting application
+  * Can pre load data on starting application (data have to be in an array a json file ot in come separated JS object):
+  * Can pre load as many files as needed
+
+## File preloading example:
+
+##File format:
+#text file -
+```js
+{"key1": "value1", "key2": "value2"},{"key1": "value3", "key2": "value4"},{"key1": "value5", "key2": "value6"}
+```
+#JSON file -
+```json
+[
+	{"key1": "value1", "key2": "value2"},
+	{"key1": "value3", "key2": "value4"},
+	{"key1": "value5", "key2": "value6"}
+]
+```
 

@@ -27,29 +27,36 @@ autoAPI.listen(autoAPI.port, function() {
 });
 
 autoAPI.rootPage = {
-  'title': 'Welcome to LazyAPI.',
-  'message': 'LazyAPI is originally meant for studing frontend technologies such as AngulasJs,'+
+  'title': 'Welcome to autoAPI.',
+  'message': 'autoAPI is originally meant for studing interface technologies such as AngulasJs,'+
     ' Ionic and others. No security is implemented so far',
-  'readme': __dirname + 'public/documentation/README.md'
+  'readme': __dirname + '/public/documentation/README.md'
 };
 
-if (autoAPI.preLoad || process.argv[3])
-{
-  var files = autoAPI.preLoad;
+autoAPI.doPreLoad = function () {
+  'use strict';
+
+  var files = autoAPI.preLoad || [];
 
   if (process.argv[3]) {
-    var files = [];
 
     process.argv.forEach((input)=>{
-      'use strict';
-
       if (input !== process.argv[0] && input !== process.argv[1] && input !== process.argv[2]) {
         files.push(input);
       }
     });
   }
 
-  preLoad(files);
+  preLoad(files, (err, data)=>{
+    if (err) { return console.log(err); }
+    console.log(data);
+  });
+};
+
+if (autoAPI.preLoad || process.argv[3]) {
+  autoAPI.doPreLoad();
 }
+
+
 
 module.exports = autoAPI;
