@@ -43,7 +43,7 @@ $http.delete('/anystring/4561234')//will delete de document with _id:4561234
 
   * Can consume GET, POST, PUT or DELETE
   * It will persist the data in files, simulating a database
-  * Super-high test coverage
   * Can use both limit and skip for listing
   * Perfect to abstract server on Angular studing
+  * Can pre load data on starting application
 

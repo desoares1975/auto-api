@@ -8,6 +8,6 @@ db-sim/data/undefined.lzdb
 db-sim/data/favicon.ico.lzdb
 db-sim/data/test_document.lzdb
 db-sim/data/user_delete.lzdb
-db-sim/data/cities_test.json
-db-sim/data/social_test.json
+db-sim/data/cities_test.lzdb
+db-sim/data/social_test.lzdb
 

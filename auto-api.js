@@ -35,7 +35,21 @@ autoAPI.rootPage = {
 
 if (autoAPI.preLoad || process.argv[3])
 {
-  preLoad();
+  var files = autoAPI.preLoad;
+
+  if (process.argv[3]) {
+    var files = [];
+
+    process.argv.forEach((input)=>{
+      'use strict';
+
+      if (input !== process.argv[0] && input !== process.argv[1] && input !== process.argv[2]) {
+        files.push(input);
+      }
+    });
+  }
+
+  preLoad(files);
 }
 
 module.exports = autoAPI;
