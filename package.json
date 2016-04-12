@@ -1,6 +1,6 @@
 {
   "name": "auto-api",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "An automated small REST API, with a DB simulator for programming practice or learning",
   "main": "index.js",
   "scripts": {

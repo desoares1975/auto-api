@@ -56,7 +56,7 @@ $http.delete('/anystring/4561234')//will delete de document with _id:4561234
 ```
 or
 
-```
+```json
 [
 	{"_id": "value1", "key1": "value2"},
 	{"_id": "value3", "key1": "value4"},
@@ -87,4 +87,4 @@ $ node app.js 8000 ./file1 ./file2 ./file3 (if the files ar in the applicatio di
   * Perfect to abstract server on Angular studing
   * Can pre load data on starting application (data have to be in an array a json file ot in come separated JS object):
   * Can pre load as many files as needed
-  * con determinate "_id" as needed
+  * Can set "_id" as needed
