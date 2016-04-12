@@ -15,23 +15,7 @@ function filePromiseAplus(file) {
         });
     });
 }
-function pathPromise(path) {
-    'use strict';
 
-    return new Promise((resolve, reject)=>{
-        let lastSla = path.lastIndexOf('/');
-
-        if (err) {return reject(err);}
-
-        if (lastSla !== 1){
-            let path = path.substring(0, lastSla);
-            return resolve(path);
-        } else {
-            return resolve(path);
-        }
-
-    });
-}
 module.exports = {
     'create': (req, res, cb) => {
         'use strict';
@@ -51,7 +35,7 @@ module.exports = {
                 }
 
                 if (req.body instanceof Object){
-                    req.body._id = Date.now();
+                    req.body._id = req.body._id || Date.now();
                     try {
                         doc = JSON.stringify(req.body);
                     } catch(error) {

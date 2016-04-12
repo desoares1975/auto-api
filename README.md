@@ -30,10 +30,13 @@ $http.get('/anystring'); //wil return every document in a file
 $http.get('/anystring/1234556'); //wil return the document in a _id:1234556
 $http.get('/anystring/10/0'); //wil return the first 10 document in array (/anystring/limit/skip)
 $http.get('/anystring/4/10'); //wil return 4 document skipping the first 10 (/anystring/limit/skip)
-$http.post('/anystring', {'name': 'Some Name'});/*will save and return a new anystring document,
+$http.post('/anystring', {'name': 'Some Name'});
+// or
+$http.post('/anystring', {'_id':'some-id', 'name': 'Some Name'});
+/*will save and return a new anystring document,
 even if you did not pre-loaded any files*/
 $http.put('/anystring/12456', {'name': 'Some Name'});/* will update a  document with _id:12456
-(_id was implemented as a Date.now())*/
+(If not given one, _id will be Date.now(), which is an integer)*/
 $http.delete('/anystring/4561234')//will delete de document with _id:4561234
 ```
 ## File preloading example:
@@ -49,6 +52,15 @@ $http.delete('/anystring/4561234')//will delete de document with _id:4561234
 	{"key1": "value1", "key2": "value2"},
 	{"key1": "value3", "key2": "value4"},
 	{"key1": "value5", "key2": "value6"}
+]
+```
+or
+
+```
+[
+	{"_id": "value1", "key1": "value2"},
+	{"_id": "value3", "key1": "value4"},
+	{"_id": "value5", "key1": "value6"}
 ]
 ```
 ### File Loading
@@ -75,3 +87,4 @@ $ node app.js 8000 ./file1 ./file2 ./file3 (if the files ar in the applicatio di
   * Perfect to abstract server on Angular studing
   * Can pre load data on starting application (data have to be in an array a json file ot in come separated JS object):
   * Can pre load as many files as needed
+  * con determinate "_id" as needed

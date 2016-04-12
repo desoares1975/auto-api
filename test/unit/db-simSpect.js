@@ -33,6 +33,9 @@ describe('Testing dbSim CRUD ',  () => {
         fs.unlink(__dirname + '/../../db-sim/data/test_new_file.lzdb', (err) => {
             if (err) {done(err);}
         });
+        fs.unlink(__dirname + '/../../db-sim/data/post_test.lzdb', (err) => {
+            if (err) {done(err);}
+        });
 
         done();
     });
@@ -77,7 +80,6 @@ describe('Testing dbSim CRUD ',  () => {
             };
 
             db.create(req, res, (err, data) => {
-                //let file = __dirname + '/../../db-sim/data/test.lzdb';
 
                 if (err) {
                     throw err;
@@ -127,6 +129,42 @@ describe('Testing dbSim CRUD ',  () => {
                         expect(storedData[0].data3).to.be.an('number');
                         expect(storedData[0].data4).to.deep.equal(['a', 'b', 'c', 'd', 'e']);
 
+                        done();
+                    });
+                });
+            });
+        });
+        it('Should create file, save document with a given _id and return it', (done) => {
+            let fileName = 'post_test',
+                file = __dirname + '/../../db-sim/data/' + fileName + '.lzdb',
+                res = new Response('/' + fileName),
+                req = {};
+
+            req.path = fileName;
+            req.body = {
+                '_id':'my-title',
+                'title': 'My Title',
+                'content': 'This is a test content for a _id creation test',
+                'created': Date.now()
+            };
+
+            db.create(req, res, (err, data) => {
+                expect(data._id).to.equal('my-title');
+                expect(data.title).to.equal('My Title');
+                //testing data on the file
+                fs.open(file, 'r', (err, fd)=>{
+
+                    fs.readFile(file, 'utf-8', (err, storedData)=>{
+                        if (err) {throw err;}
+
+                        storedData = '[' + storedData + ']';
+
+                        storedData = JSON.parse(storedData);
+                        expect(storedData.length).to.deep.equal(1);
+                        expect(storedData[0]._id).to.deep.equal('my-title');
+                        expect(storedData[0]._id).to.deep.equal(data._id);
+                        expect(storedData[0].content).to.deep.equal('This is a test content for a _id creation test');
+                        expect(storedData[0]).to.have.property('created');
                         done();
                     });
                 });
