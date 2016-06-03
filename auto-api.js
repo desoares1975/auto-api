@@ -9,7 +9,7 @@ autoAPI.use(express.static(__dirname + '/public'));
 autoAPI.use(bodyParser.json());
 autoAPI.use(bodyParser.urlencoded({'extended': true}));
 
-autoAPI.port = parseInt(process.argv[2]) || 9000;
+autoAPI.port = autoAPI.port || parseInt(process.argv[2]) || 9000;
 
 autoAPI.all('*', function(req, res, next) {
     'use strict';
