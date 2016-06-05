@@ -28,6 +28,7 @@
     "async": "^2.0.0-rc.3",
     "body-parser": "^1.15.0",
     "every-index-of": "^1.0.2",
-    "express": "^4.13.4"
+    "express": "^4.13.4",
+    "mongodb": "^2.1.21"
   }
 }

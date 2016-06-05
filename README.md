@@ -15,7 +15,7 @@ $ npm install auto-api
 
 ```js
 var autoAPI = require('auto-api');
-autoApi.port = 3000;
+autoApi.port = 3000;//optional
 
 ```
 ```bash
