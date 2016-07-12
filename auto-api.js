@@ -9,7 +9,6 @@ autoAPI.use(express.static(__dirname + '/public'));
 autoAPI.use(bodyParser.json());
 autoAPI.use(bodyParser.urlencoded({'extended': true}));
 
-autoAPI.port = autoAPI.port || parseInt(process.argv[2]) || 9000;
 autoAPI.db = autoAPI.db || 'default';
 
 autoAPI.all('*', function(req, res, next) {
@@ -23,23 +22,28 @@ autoAPI.all('*', function(req, res, next) {
 
 require('./routes')(autoAPI);
 
-autoAPI.listen(autoAPI.port, function() {
+autoAPI.load = (port, db) => {
     'use strict';
-    console.log('Application up and running on port ', autoAPI.port);
-    if (autoAPI.db === 'mongodb') {
-        var mongodb = require('mongodb');
+    port =  port || parseInt(process.argv[2]) || 9000;
+    autoAPI.db = db || 'default';
 
-        autoAPI.dbpath = autoAPI.dbpath || 'mongodb://localhost:27017/autoAPI';
+    autoAPI.listen(port, function() {
+        console.log('Application up and running on port ', port);
+        if (autoAPI.db === 'mongodb') {
+            var mongodb = require('mongodb');
 
-        mongodb.connect(autoAPI.dbpath, function (err, db) {
-            if (err) {
-                return console.log(err);
-            }
-            autoAPI.dbConnection = db;
-            console.log('Auto-API connected on', autoAPI.dbpath);
-        });
-    }
-});
+            autoAPI.dbpath = autoAPI.dbpath || 'mongodb://localhost:27017/autoAPI';
+
+            mongodb.connect(autoAPI.dbpath, function (err, db) {
+                if (err) {
+                    return console.log(err);
+                }
+                autoAPI.dbConnection = db;
+                console.log('Auto-API connected on', autoAPI.dbpath);
+            });
+        }
+    });
+};
 
 autoAPI.rootPage = {
     'title': 'Welcome to autoAPI.',

@@ -15,17 +15,22 @@ $ npm install auto-api
 
 ```js
 var autoAPI = require('auto-api');
-autoApi.port = 3000;//optional
+autoAPI.load(3000);
 
 ```
 ```bash
 $ node app.js (will start on port 3000)
 ```
-```bash
-$ node app.js 8000 (will start on port 8000 or on autoApi.port, if set)
+```js
+var autoAPI = require('auto-api');
+autoAPI.load();
+
 ```
 ```bash
-$ npm start (within the auto-api folder will start on port 3000 or 9000 if autoApi.port is not set, with nodemon and jshint (dev dependencies required))
+$ node app.js 8000 (will start on port 8000)
+```
+```bash
+$ npm start (will start on port 9000, with nodemon and jshint (dev dependencies required))
 ```
 
 ```js
