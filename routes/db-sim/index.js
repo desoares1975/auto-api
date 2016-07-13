@@ -1,4 +1,6 @@
-var create = require('./post'),
+'use strict';
+
+const create = require('./post'),
     read = require('./get'),
     update = require('./put'),
     remove = require('./delete');

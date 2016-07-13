@@ -5,22 +5,26 @@ var expect = require('chai').expect,
     db = require('../../db-sim'),
     Response = require('mock-response');
 
-describe('Testing dbSim CRUD ',  () => {
+describe('Testing dbSim CRUD ', () => {
     'use strict';
 
     before(() => {
 
-            fs.readFile(__dirname + '/../fixtures/user.md', 'utf-8', (err, data)=>{
-                if (err) {throw err;}
+            fs.readFile(__dirname + '/../fixtures/user.md', 'utf-8', (err, data) => {
+                if (err) {
+                    throw err;
+                }
 
-                fs.writeFile(__dirname + '/../../db-sim/data/user_test.lzdb', data, (err, beforeFd) => {
-                    if (err) {throw err;}
+                fs.writeFile(__dirname + '/../../db-sim/data/user_test.lzdb', data, err => {
+                    if (err) {
+                        throw err;
+                    }
 
                 });
             });
     });
 
-    after((done)=>{
+    after(done => {
 
         fs.unlink(__dirname + '/../../db-sim/data/test.lzdb', (err) => {
             if (err) {done(err);}

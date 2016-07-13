@@ -1,13 +1,13 @@
-/* jshint esversion: 6, strict: true */
+'use strict';
+
 console.log('Functional testing starting...');
 
-var fs = require('fs'),
+const fs = require('fs'),
     files = fs.readdirSync(__dirname + '/');
 
-files.forEach((file)=>{
-    'use strict';
+files.forEach(file => {
 
-    if (file != 'index.js') {
+    if (file !== 'index.js') {
         module.exports[file.replace('js', '')] = require('./' + file);
     }
 });

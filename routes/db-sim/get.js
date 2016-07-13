@@ -1,11 +1,11 @@
-/* jshint esversion: 6 */
-var read = require('../../db-sim').read,
-    objIndex = require('../../lib/object-value');
+'use strict';
 
-module.exports = (req, res)=>{
-    'use strict';
+const read = require('../../db-sim').read,
+    _ = require('lodash');
 
-    read(req, res, (err, doc)=>{
+module.exports = (req, res) => {
+
+    read(req, res, (err, doc) => {
 
         if (err) {
             return res.status(500).json(err);
@@ -16,7 +16,10 @@ module.exports = (req, res)=>{
         }
 
         if (req.params._id) {
-            let index = objIndex(doc, '_id', req.params._id);
+            let index = _.findIndex(doc, {
+                '_id': parseInt(req.params._id)
+            });
+
             if (!doc[index]){
                 return res.status(404).json({'reason': 'Data in ' + (req.url || req.path) + '/' +
                 req.params._id + ' not found.'});

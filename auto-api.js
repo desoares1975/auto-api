@@ -1,47 +1,30 @@
-/* jshint esversion: 6, strict: true */
-var express = require('express'),
+'use strict';
+
+const express = require('express'),
     bodyParser = require('body-parser'),
     autoAPI = express(),
-    db = require('./db-sim'),
     preLoad = require('./lib/pre-load');
 
 autoAPI.use(express.static(__dirname + '/public'));
 autoAPI.use(bodyParser.json());
 autoAPI.use(bodyParser.urlencoded({'extended': true}));
 
-autoAPI.db = autoAPI.db || 'default';
-
-autoAPI.all('*', function(req, res, next) {
-    'use strict';
+autoAPI.all('*', (req, res, next) => {
 
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE');
     res.header('Access-Control-Allow-Headers', 'Content-Type');
-    next();
+    return next();
 });
 
 require('./routes')(autoAPI);
 
-autoAPI.load = (port, db) => {
-    'use strict';
+autoAPI.load = port => {
+
     port =  port || parseInt(process.argv[2]) || 9000;
-    autoAPI.db = db || 'default';
 
     autoAPI.listen(port, function() {
         console.log('Application up and running on port ', port);
-        if (autoAPI.db === 'mongodb') {
-            var mongodb = require('mongodb');
-
-            autoAPI.dbpath = autoAPI.dbpath || 'mongodb://localhost:27017/autoAPI';
-
-            mongodb.connect(autoAPI.dbpath, function (err, db) {
-                if (err) {
-                    return console.log(err);
-                }
-                autoAPI.dbConnection = db;
-                console.log('Auto-API connected on', autoAPI.dbpath);
-            });
-        }
     });
 };
 
@@ -52,22 +35,24 @@ autoAPI.rootPage = {
     'readme': __dirname + '/public/documentation/README.md'
 };
 
-autoAPI.doPreLoad = function () {
-    'use strict';
+autoAPI.doPreLoad = () => {
 
-    var files = autoAPI.preLoad || [];
+    let files = autoAPI.preLoad || [];
 
     if (process.argv[3]) {
 
-        process.argv.forEach((input)=>{
+        process.argv.forEach(input => {
         if (input !== process.argv[0] && input !== process.argv[1] && input !== process.argv[2]) {
             files.push(input);
         }
         });
     }
 
-    preLoad(files, (err, data)=>{
-        if (err) { return console.log(err); }
+    preLoad(files, (err, data) => {
+        if (err) {
+            return console.log(err);
+        }
+
         console.log(data);
     });
 };

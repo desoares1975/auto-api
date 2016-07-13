@@ -1,12 +1,12 @@
-/*jshint esversion: 6, strict:true */
-var expect = require('chai').expect,
+'use strict';
+
+const expect = require('chai').expect,
     request = require('supertest'),
     app = require('../../auto-api'),
     fs = require('fs'),
-    objIndex = require('../../lib/object-value');
+    _ = require('lodash');
 
 describe('DELETE routes', ()=>{
-    'use strict';
     let file = __dirname + '/../../db-sim/data/user_delete.lzdb';
 
     before((done)=>{
@@ -39,7 +39,7 @@ describe('DELETE routes', ()=>{
 	        	fs.readFile(file, 'utf-8', (err, data)=>{
 	        		if (err) { return done(err); }
 	        		data = JSON.parse('[' + data + ']');
-	        		let index = objIndex(data, '_id', 1);
+	        		let index = _.findIndex(data, {'_id': 1});
 	        		expect(data.length).to.deep.equal(9);
 	        		expect(index).to.deep.equal(-1);
 	        		done();

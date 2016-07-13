@@ -30,7 +30,7 @@ autoAPI.load();
 $ node app.js 8000 (will start on port 8000)
 ```
 ```bash
-$ npm start (will start on port 9000, with nodemon and jshint (dev dependencies required))
+node_modules/auto-api$ npm start (will start on port 9000, with nodemon and jshint (dev dependencies required))
 ```
 
 ```js
