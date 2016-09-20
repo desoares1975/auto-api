@@ -1,7 +1,7 @@
 # auto-api
-Small REST API with db simulation for practice purpouses
+Small REST API with DB simulation for practice purpouses
 
-The genaral idea is to use GET, POST, PUT and DELETE HTTP verbs to access a non secure route to studie front end tecnologies,
+The genaral idea is to use GET, POST, PUT, PATCH and DELETE HTTP verbs to access a non secure route to studie front end tecnologies,
 abstracting the back end.
 If you post on any route it will create the route and store the data automatically.
 
@@ -35,10 +35,10 @@ node_modules/auto-api$ npm start (will start on port 9000, with nodemon and jshi
 
 ```js
 //angular example
-$http.get('/anystring'); //wil return every document in a file
-$http.get('/anystring/1234556'); //wil return the document in a _id:1234556
-$http.get('/anystring/10/0'); //wil return the first 10 document in array (/anystring/limit/skip)
-$http.get('/anystring/4/10'); //wil return 4 document skipping the first 10 (/anystring/limit/skip)
+$http.get('/anystring'); //will return every document in a file
+$http.get('/anystring/1234556'); //will return the document in a _id:1234556
+$http.get('/anystring/10/0'); //will return the first 10 documents in an array (/anystring/limit/skip)
+$http.get('/anystring/4/10'); //will return 4 document skipping the first 10 (/anystring/limit/skip)
 $http.post('/anystring', {'name': 'Some Name'});
 // or
 $http.post('/anystring', {'_id':'some-id', 'name': 'Some Name'});
@@ -90,7 +90,7 @@ $ node app.js 8000 ./file1 ./file2 ./file3 (if the files ar in the applicatio di
 
 ## Features
 
-  * Can consume GET, POST, PUT or DELETE
+  * Can consume GET, POST, PUT, PATCH or DELETE
   * It will persist the data in files, simulating a database
   * Can use both limit and skip for listing
   * Perfect to abstract server on Angular studing
