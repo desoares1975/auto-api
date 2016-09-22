@@ -156,7 +156,9 @@ module.exports = {
             return cb(reason);
         });
     },
-
+    'patch': (req, res, cb) => {
+        return cb(null, true);
+    },
     'delete': (req, res, cb) => {
 
         let file = __dirname + '/data/' + req.path + '.lzdb';
