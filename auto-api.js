@@ -12,7 +12,7 @@ autoAPI.use(bodyParser.urlencoded({'extended': true}));
 autoAPI.all('*', (req, res, next) => {
 
     res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE');
+    res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, PATCH');
     res.header('Access-Control-Allow-Headers', 'Content-Type');
     return next();
 });

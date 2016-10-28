@@ -27,18 +27,26 @@ describe('Testing dbSim CRUD ', () => {
     after(done => {
 
         fs.unlink(__dirname + '/../../db-sim/data/test.lzdb', (err) => {
-            if (err) {done(err);}
+            if (err) {
+                done(err);
+            }
 
         });
         fs.unlink(__dirname + '/../../db-sim/data/user_test.lzdb', (err) => {
-            if (err) {done(err);}
+            if (err) {
+                done(err);
+            }
 
         });
         fs.unlink(__dirname + '/../../db-sim/data/test_new_file.lzdb', (err) => {
-            if (err) {done(err);}
+            if (err) {
+                done(err);
+            }
         });
         fs.unlink(__dirname + '/../../db-sim/data/post_test.lzdb', (err) => {
-            if (err) {done(err);}
+            if (err) {
+                done(err);
+            }
         });
 
         done();
@@ -167,7 +175,9 @@ describe('Testing dbSim CRUD ', () => {
                         expect(storedData.length).to.deep.equal(1);
                         expect(storedData[0]._id).to.deep.equal('my-title');
                         expect(storedData[0]._id).to.deep.equal(data._id);
-                        expect(storedData[0].content).to.deep.equal('This is a test content for a _id creation test');
+                        expect(storedData[0].content).to.deep.equal(
+                            'This is a test content for a _id creation test'
+                        );
                         expect(storedData[0]).to.have.property('created');
                         done();
                     });
@@ -236,10 +246,15 @@ describe('Testing dbSim CRUD ', () => {
                 expect(data.data3).to.be.an('number');
                 expect(data.data4).to.be.an('Array');
                 expect(data.data4.length).to.deep.equal(4);
-                fs.open(file, 'r', (err, fdRead)=>{
+                fs.open(file, 'r', err => {
+                    if (err) {
+                        throw err;
+                    }
 
                     fs.readFile(file, 'utf-8', (err, storedData)=>{
-                        if (err) {throw err;}
+                        if (err) {
+                            throw err;
+                        }
 
                         storedData = '[' + storedData + ']';
                         storedData = JSON.parse(storedData);
@@ -300,7 +315,9 @@ describe('Testing dbSim CRUD ', () => {
             req.path = 'user_test';
             req.params.limit = 5;
             db.read(req, res, function (err, data) {
-                if (err) {throw err;}
+                if (err) {
+                    throw err;
+                }
 
                 expect(data.length).to.deep.equal(5);
                 expect(data[0].name).to.deep.equal("Abe Abeson");
@@ -315,7 +332,9 @@ describe('Testing dbSim CRUD ', () => {
             req.path = 'user_test';
             req.params = {};
             db.read(req, res, function (err, data) {
-                if (err) {throw err;}
+                if (err) {
+                    throw err;
+                }
 
                 expect(data.length).to.deep.equal(10);
                 expect(data[0].name).to.deep.equal("Abe Abeson");
@@ -333,24 +352,29 @@ describe('Testing dbSim CRUD ', () => {
             req.params.skip = 2;
             req.params.limit = 3;
             db.read(req, res, function (err, data) {
-                if (err) {throw err;}
+                if (err) {
+                    throw err;
+                }
 
                 expect(data.length).to.deep.equal(3);
-                expect(data[0].name).to.deep.equal("Jonah James Jameson");
-                expect(data[2].name).to.deep.equal("Eliot Otson");
+                expect(data[0].name).to.deep.equal('Jonah James Jameson');
+                expect(data[2].name).to.deep.equal('Eliot Otson');
                 done();
             });
         });
     });
     describe('update', ()=>{
-        it ('Should update _id: 10 document, return it and check data file for the changes', (done) => {
+        it ('Should update _id: 10 document, return it and check data file for the changes',
+            (done) => {
             let res = new Response('/user_test'),
                 req = {};
 
                 fs.readFile(__dirname + '/../../db-sim/data/user_test.lzdb', 'utf-8', (err, data)=>{
-                    if (err) {throw err;}
+                    if (err) {
+                        throw err;
+                    }
 
-                    data = JSON.parse('['+ data +']')[9];
+                    data = JSON.parse('[' + data + ']')[9];
 
                     expect(data.age).to.deep.equal(83);
                     data.address = 'Dead Street, 1000';
@@ -363,8 +387,11 @@ describe('Testing dbSim CRUD ', () => {
                         expect(change._id).to.deep.equal(10);
                         expect(change.address).to.deep.equal('Dead Street, 1000');
 
-                        fs.readFile(__dirname + '/../../db-sim/data/user_test.lzdb', 'utf-8', (err, retriveData)=>{
-                            if (err) {throw err;}
+                        fs.readFile(__dirname + '/../../db-sim/data/user_test.lzdb', 'utf-8',
+                            (err, retriveData) => {
+                            if (err) {
+                                throw err;
+                            }
 
                             retriveData = JSON.parse('[' + retriveData + ']')[9];
                             expect(retriveData._id).to.deep.equal(10);
@@ -382,13 +409,15 @@ describe('Testing dbSim CRUD ', () => {
                 file = __dirname + '/../../db-sim/data/user_test.lzdb';
 
                 fs.readFile(file, 'utf-8', (err, data)=>{
-                    if (err) {throw err;}
+                    if (err) {
+                        throw err;
+                    }
 
-                    data = JSON.parse('['+ data +']')[5];
+                    data = JSON.parse('[' + data + ']')[5];
 
                     expect(data.name).to.deep.equal('David Davidson');
                     expect(data.age).to.deep.equal(32);
-                    data.name = "Fabio Desoares";
+                    data.name = 'Fabio Desoares';
                     data.address = 'Dr. Girlfriend, 101';
                     data.age = 41;
                     req.path = 'user_test';
@@ -399,7 +428,9 @@ describe('Testing dbSim CRUD ', () => {
                         expect(change._id).to.deep.equal(6);
 
                         fs.readFile(file, 'utf-8', (err, retriveData)=>{
-                            if (err) {throw err;}
+                            if (err) {
+                                throw err;
+                            }
 
                             retriveData = JSON.parse('[' + retriveData + ']')[5];
                             expect(retriveData._id).to.deep.equal(6);
@@ -413,8 +444,22 @@ describe('Testing dbSim CRUD ', () => {
 
         });
     });
+    describe('patch', () => {
+        it('Should add new fiels to existing data', done => {
+            let res = new Response('/user_test'),
+                req = {};
+
+            db.patch(req, res, (err, patched) => {
+                if (err) {
+                    throw err;
+                }
+
+                done();
+            });
+        });
+    });
     describe('delete', ()=>{
-        it('Should delete _id: 4 document', (done) => {
+        it('Should delete _id: 4 document', done => {
             let res = new Response('/user_test'),
                 req = {},
                 file = __dirname + '/../../db-sim/data/user_test.lzdb';
@@ -436,7 +481,7 @@ describe('Testing dbSim CRUD ', () => {
             });
         });
 
-        it('Should not delete alread deleted document', (done)=>{
+        it('Should not delete alread deleted document', done => {
             let res = new Response('/user_test'),
                 req = {},
                 file = __dirname + '/../../db-sim/data/user_test.lzdb';
@@ -445,7 +490,7 @@ describe('Testing dbSim CRUD ', () => {
             req.params = {'_id': 4};
             db.delete(req, res, (err, deleted) => {
                 expect(deleted.reason).to.deep.equal('No data was found under the _id 4');
-                fs.readFile(file, 'utf-8', (err, data)=>{
+                fs.readFile(file, 'utf-8', (err, data) => {
                     data = JSON.parse('[' + data + ']');
                     expect(data.length).to.deep.equal(9);
                 });

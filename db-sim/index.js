@@ -3,8 +3,8 @@
 const fs = require('fs'),
     _ = require('lodash');
 
-function filePromiseAplus(file) {
-    return new Promise((resolve, reject)=>{
+const filePromiseAplus = file => {
+    return new Promise((resolve, reject) => {
 
         fs.open(file, 'a+', (err, fileDesc) => {
             if (err) {
@@ -14,7 +14,7 @@ function filePromiseAplus(file) {
             resolve(fileDesc);
         });
     });
-}
+};
 
 module.exports = {
     'create': (req, res, cb) => {
@@ -57,12 +57,12 @@ module.exports = {
                     return cb(null, req.body);
                 }
             });
-        }).catch(reason => {
+        })
+        .catch(reason => {
             console.log('REASON->create', reason);
             return cb(reason);
         });
     },
-
     'read': (req, res, cb) => {
 
         let file = __dirname + '/data/' + (req.url || req.path) + '.lzdb',
@@ -156,7 +156,9 @@ module.exports = {
             return cb(reason);
         });
     },
-
+    'patch': (req, res, cb) => {
+        return cb(null, true);
+    },
     'delete': (req, res, cb) => {
 
         let file = __dirname + '/data/' + req.path + '.lzdb';
